@@ -20,11 +20,6 @@
       "url": "https://api.pondmobile.com/v2.1"
     }
   ],
-  "security": [
-    {
-      "bearer": []
-    }
-  ],
   "paths": {
     "/core/countries": {
       "get": {
@@ -2192,6 +2187,154 @@
             }
           }
         }
+      },
+      "delete": {
+        "tags": [
+          "Inventory"
+        ],
+        "summary": "Delete a group.",
+        "operationId": "deleteGroupById",
+        "description": "The endpoint deletes the specified group.",
+        "parameters": [
+          {
+            "name": "group_id",
+            "in": "path",
+            "required": true,
+            "description": "The ID of the group.",
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "request-id",
+            "in": "header",
+            "description": "The parameter is returned in the response header. It functions as a reference ID to assist client-side developers, particularly when working with asynchronous systems. This unique identifier helps in tracking individual requests, aiding in troubleshooting and system monitoring.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "version",
+            "in": "header",
+            "description": "If this header is not provided, or if an invalid version is given, the API will default to using the latest version available.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Operation successful.",
+            "headers": {
+              "request-id": {
+                "description": "The 'Request-ID' from request header will be provided as it is in response header.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "reference-id": {
+                "description": "The 'Reference-ID' will be generated uniquely by the system and assign it to each request served by the system. It will be used for internal traceability. It will be very helpful if provided in support ticket.",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Group"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid inputs.",
+            "headers": {
+              "request-id": {
+                "description": "The 'Request-ID' from request header will be provided as it is in response header.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "reference-id": {
+                "description": "The 'Reference-ID' will be generated uniquely by the system and assign it to each request served by the system. It will be used for internal traceability. It will be very helpful if provided in support ticket.",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Authentication failed.",
+            "headers": {
+              "request-id": {
+                "description": "The 'Request-ID' from request header will be provided as it is in response header.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "reference-id": {
+                "description": "The 'Reference-ID' will be generated uniquely by the system and assign it to each request served by the system. It will be used for internal traceability. It will be very helpful if provided in support ticket.",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Authorization failed or forbidden access to the requested resource.",
+            "headers": {
+              "request-id": {
+                "description": "The 'Request-ID' from request header will be provided as it is in response header.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "reference-id": {
+                "description": "The 'Reference-ID' will be generated uniquely by the system and assign it to each request served by the system. It will be used for internal traceability. It will be very helpful if provided in support ticket.",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
       }
     },
     "/inventory/sim-registries": {
@@ -3529,6 +3672,1055 @@
         }
       }
     },
+    "/inventory/msisdns": {
+      "get": {
+        "tags": [
+          "Inventory"
+        ],
+        "summary": "List MSISDNs.",
+        "operationId": "list-msisdns",
+        "description": "The endpoint list all active MSISDNs in your company. Can be filtered by inventory or assigned SIM etc.",
+        "parameters": [
+          {
+            "name": "count",
+            "in": "query",
+            "description": "The number of items you want to retrieve in a single API call.",
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "offset",
+            "in": "query",
+            "description": "The parameter is used in pagination to specify the starting point in the data set from where the 'count' number of items will be returned. For example, if the offset is set to 10 and the count is set to 5, the API will skip the first 10 items and then return the next 5 items in the data set.",
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "inventory",
+            "in": "query",
+            "description": "This query parameter allows you to filter the results of the list SIMs endpoint based on the inventory to which the MSISDNs belong.",
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "assigned_sim",
+            "in": "query",
+            "description": "This query parameter allows you to filter the results of the list SIMs endpoint based on the assigned SIM.",
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "company",
+            "in": "query",
+            "description": "This query parameter allows you to filter the results of the list SIMs endpoint based on the company to which the MSISDNs belong.",
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "cli",
+            "in": "query",
+            "description": "This query parameter allows you to filter the msisdns which are used for cli.",
+            "schema": {
+              "type": "boolean"
+            }
+          },
+          {
+            "name": "status",
+            "in": "query",
+            "description": "This query parameter allows you to filter the msisdns based on status i.e. assigned or unassigned.",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "ASSIGNED",
+                "UNASSIGNED"
+              ]
+            }
+          },
+          {
+            "name": "request-id",
+            "in": "header",
+            "description": "The parameter is returned in the response header. It functions as a reference ID to assist client-side developers, particularly when working with asynchronous systems. This unique identifier helps in tracking individual requests, aiding in troubleshooting and system monitoring.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "version",
+            "in": "header",
+            "description": "If this header is not provided, or if an invalid version is given, the API will default to using the latest version available.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "On success, the list of MSISDNs is returned.",
+            "headers": {
+              "request-id": {
+                "description": "The 'Request-ID' from request header will be provided as it is in response header.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "reference-id": {
+                "description": "The 'Reference-ID' will be generated uniquely by the system and assign it to each request served by the system. It will be used for internal traceability. It will be very helpful if provided in support ticket.",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "total": {
+                      "description": "The total number of groups in the response.",
+                      "type": "integer",
+                      "format": "int64"
+                    },
+                    "offset": {
+                      "description": "The offset value used for pagination, indicating the starting point of the returned countries.",
+                      "type": "integer",
+                      "format": "int64"
+                    },
+                    "count": {
+                      "description": "The number of countries included in the current response.",
+                      "type": "integer",
+                      "minimum": 1,
+                      "maximum": 100
+                    },
+                    "msisdns": {
+                      "description": "An array containing the list of MSISDNs.",
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/MSISDN"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid inputs.",
+            "headers": {
+              "request-id": {
+                "description": "The 'Request-ID' from request header will be provided as it is in response header.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "reference-id": {
+                "description": "The 'Reference-ID' will be generated uniquely by the system and assign it to each request served by the system. It will be used for internal traceability. It will be very helpful if provided in support ticket.",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Authentication failed.",
+            "headers": {
+              "request-id": {
+                "description": "The 'Request-ID' from request header will be provided as it is in response header.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "reference-id": {
+                "description": "The 'Reference-ID' will be generated uniquely by the system and assign it to each request served by the system. It will be used for internal traceability. It will be very helpful if provided in support ticket.",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Authorization failed or forbidden access to the requested resource.",
+            "headers": {
+              "request-id": {
+                "description": "The 'Request-ID' from request header will be provided as it is in response header.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "reference-id": {
+                "description": "The 'Reference-ID' will be generated uniquely by the system and assign it to each request served by the system. It will be used for internal traceability. It will be very helpful if provided in support ticket.",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/inventory/msisdns/{msisdn}": {
+      "get": {
+        "tags": [
+          "Inventory"
+        ],
+        "summary": "Retrieve a MSISDN.",
+        "operationId": "retrieve-msisdn",
+        "description": "This endpoint retrieve the details of the specified MSISDN.",
+        "parameters": [
+          {
+            "name": "msisdn",
+            "in": "path",
+            "required": true,
+            "description": "The specific MSISDN you want to retrieve in a single API call.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "request-id",
+            "in": "header",
+            "description": "The parameter is returned in the response header. It functions as a reference ID to assist client-side developers, particularly when working with asynchronous systems. This unique identifier helps in tracking individual requests, aiding in troubleshooting and system monitoring.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "version",
+            "in": "header",
+            "description": "If this header is not provided, or if an invalid version is given, the API will default to using the latest version available.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "On success, a requested MSISDN is returned.",
+            "headers": {
+              "request-id": {
+                "description": "The 'Request-ID' from request header will be provided as it is in response header.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "reference-id": {
+                "description": "The 'Reference-ID' will be generated uniquely by the system and assign it to each request served by the system. It will be used for internal traceability. It will be very helpful if provided in support ticket.",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MSISDN"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid inputs.",
+            "headers": {
+              "request-id": {
+                "description": "The 'Request-ID' from request header will be provided as it is in response header.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "reference-id": {
+                "description": "The 'Reference-ID' will be generated uniquely by the system and assign it to each request served by the system. It will be used for internal traceability. It will be very helpful if provided in support ticket.",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Authentication failed.",
+            "headers": {
+              "request-id": {
+                "description": "The 'Request-ID' from request header will be provided as it is in response header.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "reference-id": {
+                "description": "The 'Reference-ID' will be generated uniquely by the system and assign it to each request served by the system. It will be used for internal traceability. It will be very helpful if provided in support ticket.",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Authorization failed or forbidden access to the requested resource.",
+            "headers": {
+              "request-id": {
+                "description": "The 'Request-ID' from request header will be provided as it is in response header.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "reference-id": {
+                "description": "The 'Reference-ID' will be generated uniquely by the system and assign it to each request served by the system. It will be used for internal traceability. It will be very helpful if provided in support ticket.",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/inventory/msisdns/{msisdn}/assignments": {
+      "get": {
+        "tags": [
+          "Inventory"
+        ],
+        "summary": "Retrieve MSISDN assignments.",
+        "operationId": "retrieve-msisdn-assignments",
+        "description": "This endpoint retrieve assignments of a MSISDN.",
+        "parameters": [
+          {
+            "name": "count",
+            "in": "query",
+            "description": "The number of items you want to retrieve in a single API call.",
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "offset",
+            "in": "query",
+            "description": "The parameter is used in pagination to specify the starting point in the data set from where the 'count' number of items will be returned. For example, if the offset is set to 10 and the count is set to 5, the API will skip the first 10 items and then return the next 5 items in the data set.",
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "msisdn",
+            "in": "path",
+            "required": true,
+            "description": "The specific MSISDN you want to request in a single API call.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "request-id",
+            "in": "header",
+            "description": "The parameter is returned in the response header. It functions as a reference ID to assist client-side developers, particularly when working with asynchronous systems. This unique identifier helps in tracking individual requests, aiding in troubleshooting and system monitoring.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "version",
+            "in": "header",
+            "description": "If this header is not provided, or if an invalid version is given, the API will default to using the latest version available.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "On success, the list of assignments on the requested MSISDN is returned.",
+            "headers": {
+              "request-id": {
+                "description": "The 'Request-ID' from request header will be provided as it is in response header.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "reference-id": {
+                "description": "The 'Reference-ID' will be generated uniquely by the system and assign it to each request served by the system. It will be used for internal traceability. It will be very helpful if provided in support ticket.",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "total": {
+                      "description": "The total number of groups in the response.",
+                      "type": "integer",
+                      "format": "int64"
+                    },
+                    "offset": {
+                      "description": "The offset value used for pagination, indicating the starting point of the returned countries.",
+                      "type": "integer",
+                      "format": "int64"
+                    },
+                    "count": {
+                      "description": "The number of countries included in the current response.",
+                      "type": "integer",
+                      "minimum": 1,
+                      "maximum": 100
+                    },
+                    "assignments": {
+                      "description": "An array containing the list of assignments.",
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/Assignment"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid inputs.",
+            "headers": {
+              "request-id": {
+                "description": "The 'Request-ID' from request header will be provided as it is in response header.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "reference-id": {
+                "description": "The 'Reference-ID' will be generated uniquely by the system and assign it to each request served by the system. It will be used for internal traceability. It will be very helpful if provided in support ticket.",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Authentication failed.",
+            "headers": {
+              "request-id": {
+                "description": "The 'Request-ID' from request header will be provided as it is in response header.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "reference-id": {
+                "description": "The 'Reference-ID' will be generated uniquely by the system and assign it to each request served by the system. It will be used for internal traceability. It will be very helpful if provided in support ticket.",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Authorization failed or forbidden access to the requested resource.",
+            "headers": {
+              "request-id": {
+                "description": "The 'Request-ID' from request header will be provided as it is in response header.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "reference-id": {
+                "description": "The 'Reference-ID' will be generated uniquely by the system and assign it to each request served by the system. It will be used for internal traceability. It will be very helpful if provided in support ticket.",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Inventory"
+        ],
+        "summary": "Assign a MSISDN to a SIM.",
+        "operationId": "create-msisdn-assignment",
+        "description": "This endpoint assigns a MSISDN to a SIM if the MSISDN is not already assigned to any SIM.",
+        "parameters": [
+          {
+            "name": "msisdn",
+            "in": "path",
+            "required": true,
+            "description": "The specific MSISDN you want to reference in a single API call.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "sim",
+            "in": "body",
+            "required": true,
+            "description": "The identifier of the SIM.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "body",
+            "in": "path",
+            "required": true,
+            "description": "Whether mark this MSISDN as cli or not. If this is a first MSISDN of a SIM than parameter will be ignored and set to true.",
+            "schema": {
+              "type": "boolean"
+            }
+          },
+          {
+            "name": "request-id",
+            "in": "header",
+            "description": "The parameter is returned in the response header. It functions as a reference ID to assist client-side developers, particularly when working with asynchronous systems. This unique identifier helps in tracking individual requests, aiding in troubleshooting and system monitoring.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "version",
+            "in": "header",
+            "description": "If this header is not provided, or if an invalid version is given, the API will default to using the latest version available.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "On success, the assignment is returned.",
+            "headers": {
+              "request-id": {
+                "description": "The 'Request-ID' from request header will be provided as it is in response header.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "reference-id": {
+                "description": "The 'Reference-ID' will be generated uniquely by the system and assign it to each request served by the system. It will be used for internal traceability. It will be very helpful if provided in support ticket.",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Assignment"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid inputs.",
+            "headers": {
+              "request-id": {
+                "description": "The 'Request-ID' from request header will be provided as it is in response header.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "reference-id": {
+                "description": "The 'Reference-ID' will be generated uniquely by the system and assign it to each request served by the system. It will be used for internal traceability. It will be very helpful if provided in support ticket.",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Authentication failed.",
+            "headers": {
+              "request-id": {
+                "description": "The 'Request-ID' from request header will be provided as it is in response header.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "reference-id": {
+                "description": "The 'Reference-ID' will be generated uniquely by the system and assign it to each request served by the system. It will be used for internal traceability. It will be very helpful if provided in support ticket.",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Authorization failed or forbidden access to the requested resource.",
+            "headers": {
+              "request-id": {
+                "description": "The 'Request-ID' from request header will be provided as it is in response header.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "reference-id": {
+                "description": "The 'Reference-ID' will be generated uniquely by the system and assign it to each request served by the system. It will be used for internal traceability. It will be very helpful if provided in support ticket.",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Inventory"
+        ],
+        "summary": "Remove assignment of a MSISDN.",
+        "operationId": "remove-msisdn-assignment",
+        "description": "Remove current assignment of a MSISDN. If a MSISDN is already set as a CLI, it will set next recent assigned MSISDN as cli if present any.",
+        "parameters": [
+          {
+            "name": "msisdn",
+            "in": "path",
+            "required": true,
+            "description": "The specific MSISDN you want to request in a single API call.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "request-id",
+            "in": "header",
+            "description": "The parameter is returned in the response header. It functions as a reference ID to assist client-side developers, particularly when working with asynchronous systems. This unique identifier helps in tracking individual requests, aiding in troubleshooting and system monitoring.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "version",
+            "in": "header",
+            "description": "If this header is not provided, or if an invalid version is given, the API will default to using the latest version available.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "On success, no content is returned.",
+            "headers": {
+              "request-id": {
+                "description": "The 'Request-ID' from request header will be provided as it is in response header.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "reference-id": {
+                "description": "The 'Reference-ID' will be generated uniquely by the system and assign it to each request served by the system. It will be used for internal traceability. It will be very helpful if provided in support ticket.",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid inputs.",
+            "headers": {
+              "request-id": {
+                "description": "The 'Request-ID' from request header will be provided as it is in response header.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "reference-id": {
+                "description": "The 'Reference-ID' will be generated uniquely by the system and assign it to each request served by the system. It will be used for internal traceability. It will be very helpful if provided in support ticket.",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Authentication failed.",
+            "headers": {
+              "request-id": {
+                "description": "The 'Request-ID' from request header will be provided as it is in response header.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "reference-id": {
+                "description": "The 'Reference-ID' will be generated uniquely by the system and assign it to each request served by the system. It will be used for internal traceability. It will be very helpful if provided in support ticket.",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Authorization failed or forbidden access to the requested resource.",
+            "headers": {
+              "request-id": {
+                "description": "The 'Request-ID' from request header will be provided as it is in response header.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "reference-id": {
+                "description": "The 'Reference-ID' will be generated uniquely by the system and assign it to each request served by the system. It will be used for internal traceability. It will be very helpful if provided in support ticket.",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/inventory/msisdns/{msisdn}/cli": {
+      "get": {
+        "tags": [
+          "Inventory"
+        ],
+        "summary": "Set a MSISDN as cli.",
+        "operationId": "set-cli-msisdn-assignment",
+        "description": "This endpoint sets a MSISDN as cli if the MSISDN is already assigned to a sim.",
+        "parameters": [
+          {
+            "name": "msisdn",
+            "in": "path",
+            "required": true,
+            "description": "The specific MSISDN you want to refer in a single API call.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "request-id",
+            "in": "header",
+            "description": "The parameter is returned in the response header. It functions as a reference ID to assist client-side developers, particularly when working with asynchronous systems. This unique identifier helps in tracking individual requests, aiding in troubleshooting and system monitoring.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "version",
+            "in": "header",
+            "description": "If this header is not provided, or if an invalid version is given, the API will default to using the latest version available.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "On success, no data is returned.",
+            "headers": {
+              "request-id": {
+                "description": "The 'Request-ID' from request header will be provided as it is in response header.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "reference-id": {
+                "description": "The 'Reference-ID' will be generated uniquely by the system and assign it to each request served by the system. It will be used for internal traceability. It will be very helpful if provided in support ticket.",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "total": {
+                      "description": "The total number of groups in the response.",
+                      "type": "integer",
+                      "format": "int64"
+                    },
+                    "offset": {
+                      "description": "The offset value used for pagination, indicating the starting point of the returned countries.",
+                      "type": "integer",
+                      "format": "int64"
+                    },
+                    "count": {
+                      "description": "The number of countries included in the current response.",
+                      "type": "integer",
+                      "minimum": 1,
+                      "maximum": 100
+                    },
+                    "assignments": {
+                      "description": "An array containing the list of assignments.",
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/Assignment"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid inputs.",
+            "headers": {
+              "request-id": {
+                "description": "The 'Request-ID' from request header will be provided as it is in response header.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "reference-id": {
+                "description": "The 'Reference-ID' will be generated uniquely by the system and assign it to each request served by the system. It will be used for internal traceability. It will be very helpful if provided in support ticket.",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Authentication failed.",
+            "headers": {
+              "request-id": {
+                "description": "The 'Request-ID' from request header will be provided as it is in response header.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "reference-id": {
+                "description": "The 'Reference-ID' will be generated uniquely by the system and assign it to each request served by the system. It will be used for internal traceability. It will be very helpful if provided in support ticket.",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Authorization failed or forbidden access to the requested resource.",
+            "headers": {
+              "request-id": {
+                "description": "The 'Request-ID' from request header will be provided as it is in response header.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "reference-id": {
+                "description": "The 'Reference-ID' will be generated uniquely by the system and assign it to each request served by the system. It will be used for internal traceability. It will be very helpful if provided in support ticket.",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/esim-rsp/EUICC-profiles/{iccid}": {
       "get": {
         "tags": [
@@ -4103,6 +5295,10 @@
                   "inventory": {
                     "description": "The inventory in which the package template is created. This parameter specifies the inventory to which the package template is associated. Only SIMs within the same inventory can be assigned a package using this package template.",
                     "type": "integer"
+                  },
+                  "apn": {
+                    "description": "Optional. If specified, the package beahvior would only applied to data sessions opened by the specified APN.",
+                    "type": "string"
                   }
                 }
               }
@@ -4924,6 +6120,196 @@
         }
       }
     },
+    "/pcr/route-policies": {
+      "get": {
+        "tags": [
+          "Policy and Charging Rules (PCR)"
+        ],
+        "summary": "List route policies.",
+        "operationId": "getroutepolicies",
+        "description": "This endpoint provides a list of all currently available route policies of an inventory. Each route policy is a unique set of rules determine how the signal is handled and terminated on the network layer. Use this endpoint to view and select the appropriate policy for your SIM(s).",
+        "parameters": [
+          {
+            "name": "count",
+            "in": "query",
+            "description": "The number of items you want to retrieve in a single API call.",
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "offset",
+            "in": "query",
+            "description": "The parameter is used in pagination to specify the starting point in the data set from where the 'count' number of items will be returned. For example, if the offset is set to 10 and the count is set to 5, the API will skip the first 10 items and then return the next 5 items in the data set.",
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "inventory",
+            "in": "query",
+            "description": "This query parameter allows you to filter the results of the list packages endpoint based on the inventory to which the packages belong.",
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "request-id",
+            "in": "header",
+            "description": "The parameter is returned in the response header. It functions as a reference ID to assist client-side developers, particularly when working with asynchronous systems. This unique identifier helps in tracking individual requests, aiding in troubleshooting and system monitoring.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "version",
+            "in": "header",
+            "description": "If this header is not provided, or if an invalid version is given, the API will default to using the latest version available.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "On success, the list of route policies is returned.",
+            "headers": {
+              "request-id": {
+                "description": "The 'Request-ID' from request header will be provided as it is in response header.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "reference-id": {
+                "description": "The 'Reference-ID' will be generated uniquely by the system and assign it to each request served by the system. It will be used for internal traceability. It will be very helpful if provided in support ticket.",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "total": {
+                      "description": "The total number of groups in the response.",
+                      "type": "integer",
+                      "format": "int64"
+                    },
+                    "offset": {
+                      "description": "The offset value used for pagination, indicating the starting point of the returned countries.",
+                      "type": "integer",
+                      "format": "int64"
+                    },
+                    "count": {
+                      "description": "The number of countries included in the current response.",
+                      "type": "integer",
+                      "minimum": 1,
+                      "maximum": 100
+                    },
+                    "route_policies": {
+                      "description": "An array containing the list of route policies.",
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/Route_policy"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid inputs.",
+            "headers": {
+              "request-id": {
+                "description": "The 'Request-ID' from request header will be provided as it is in response header.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "reference-id": {
+                "description": "The 'Reference-ID' will be generated uniquely by the system and assign it to each request served by the system. It will be used for internal traceability. It will be very helpful if provided in support ticket.",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Authentication failed.",
+            "headers": {
+              "request-id": {
+                "description": "The 'Request-ID' from request header will be provided as it is in response header.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "reference-id": {
+                "description": "The 'Reference-ID' will be generated uniquely by the system and assign it to each request served by the system. It will be used for internal traceability. It will be very helpful if provided in support ticket.",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Authorization failed or forbidden access to the requested resource.",
+            "headers": {
+              "request-id": {
+                "description": "The 'Request-ID' from request header will be provided as it is in response header.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "reference-id": {
+                "description": "The 'Reference-ID' will be generated uniquely by the system and assign it to each request served by the system. It will be used for internal traceability. It will be very helpful if provided in support ticket.",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/pcr/sim-pcr-profiles/{iccid}": {
       "get": {
         "tags": [
@@ -5123,6 +6509,10 @@
                   "wallet_mode": {
                     "description": "The desired mode of the wallet usage, such as \"GROUP\" or \"SIM\". This specifies which wallet the SIM's usage should be charged towards.",
                     "type": "string"
+                  },
+                  "route_policy": {
+                    "description": "Optional. The route policy determines how the signal is handled and terminated on the network layer. For more info, please consult your account manager.",
+                    "type": "integer"
                   }
                 }
               }
@@ -5158,7 +6548,7 @@
         ],
         "responses": {
           "204": {
-            "description": "Operation successful.",
+            "description": "The request has been accepted.",
             "headers": {
               "request-id": {
                 "description": "The 'Request-ID' from request header will be provided as it is in response header.",
@@ -5758,13 +7148,25 @@
               "schema": {
                 "type": "object",
                 "properties": {
-                  "balance_adjustment": {
-                    "description": "It refers to the value used to alter the current balance of a specific wallet. It can be positive (for adding to the balance) or negative (for subtracting from the balance), allowing precise control over the wallet's fund levels.",
-                    "type": "number"
+                  "balance_change": {
+                    "description": "Optional. If not null, the specified topup value will be added to the existing balance. Please note that the actual balance of the wallet may vary from the retrieved balance (due to usage report delays). Negative topup value is allowed; it substract the value from the existing balance.",
+                    "type": "object",
+                    "properties": {
+                      "topup": {
+                        "description": "Values after the 2nd decimal place will be ignored.",
+                        "type": "number"
+                      }
+                    }
                   },
-                  "new_overdraft": {
-                    "description": "The field is used to change the current overdraft limit of a specified wallet. This value sets a new threshold that allows the wallet balance to go below zero, up to the provided overdraft limit.",
-                    "type": "number"
+                  "overdraft_change": {
+                    "description": "Optional. If not null, the specified overdraft value will overwrite the existing value.",
+                    "type": "object",
+                    "properties": {
+                      "set": {
+                        "description": "Values after the 2nd decimal place will be ignored.",
+                        "type": "number"
+                      }
+                    }
                   }
                 }
               }
@@ -5799,7 +7201,7 @@
           }
         ],
         "responses": {
-          "200": {
+          "204": {
             "description": "Operation successful.",
             "headers": {
               "request-id": {
@@ -6808,7 +8210,186 @@
           }
         ],
         "responses": {
-          "200": {
+          "204": {
+            "description": "The SMS request has been accepted.",
+            "headers": {
+              "request-id": {
+                "description": "The 'Request-ID' from request header will be provided as it is in response header.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "reference-id": {
+                "description": "The 'Reference-ID' will be generated uniquely by the system and assign it to each request served by the system. It will be used for internal traceability. It will be very helpful if provided in support ticket.",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "description": "The identifier of SMS.",
+                      "type": "integer"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid inputs.",
+            "headers": {
+              "request-id": {
+                "description": "The 'Request-ID' from request header will be provided as it is in response header.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "reference-id": {
+                "description": "The 'Reference-ID' will be generated uniquely by the system and assign it to each request served by the system. It will be used for internal traceability. It will be very helpful if provided in support ticket.",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Authentication failed.",
+            "headers": {
+              "request-id": {
+                "description": "The 'Request-ID' from request header will be provided as it is in response header.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "reference-id": {
+                "description": "The 'Reference-ID' will be generated uniquely by the system and assign it to each request served by the system. It will be used for internal traceability. It will be very helpful if provided in support ticket.",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Authorization failed or forbidden access to the requested resource.",
+            "headers": {
+              "request-id": {
+                "description": "The 'Request-ID' from request header will be provided as it is in response header.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "reference-id": {
+                "description": "The 'Reference-ID' will be generated uniquely by the system and assign it to each request served by the system. It will be used for internal traceability. It will be very helpful if provided in support ticket.",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/a2p-sms/sms-requests/binary": {
+      "post": {
+        "tags": [
+          "A2P SMS"
+        ],
+        "summary": "Send SMS.",
+        "operationId": "sendSMS",
+        "description": "The endpoint sends a SMS request via API to the subscriber. MSISDN is not required for the subscriber to receive the SMS.",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "sim": {
+                    "description": "The ICCID of the receiving subscriber.",
+                    "type": "string"
+                  },
+                  "from": {
+                    "description": "The short code or the MSISDN displayed for the SMS.",
+                    "type": "string"
+                  },
+                  "message": {
+                    "description": "The body message of the SMS as a list of integers (binary).",
+                    "type": "array",
+                    "items": {
+                      "type": "integer",
+                      "format": "int32"
+                    }
+                  },
+                  "validity_period": {
+                    "description": "The validity period of the SMS. The unit is in minute. The value should be between 1 and 10080 (7 days) inclusively.",
+                    "type": "integer",
+                    "format": "int64"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "request-id",
+            "in": "header",
+            "description": "The parameter is returned in the response header. It functions as a reference ID to assist client-side developers, particularly when working with asynchronous systems. This unique identifier helps in tracking individual requests, aiding in troubleshooting and system monitoring.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "version",
+            "in": "header",
+            "description": "If this header is not provided, or if an invalid version is given, the API will default to using the latest version available.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
             "description": "The SMS request has been accepted.",
             "headers": {
               "request-id": {
@@ -6929,6 +8510,11 @@
       }
     }
   },
+  "security": [
+    {
+      "bearer": []
+    }
+  ],
   "components": {
     "securitySchemes": {
       "bearer": {
@@ -7262,6 +8848,77 @@
           }
         }
       },
+      "Assignment": {
+        "type": "object",
+        "properties": {
+          "sim": {
+            "description": "The identifier of the SIM.",
+            "type": "string"
+          },
+          "assigned_date": {
+            "description": "The date of MSISDN has been assigned.",
+            "type": "integer"
+          },
+          "assigned_id": {
+            "description": "The identifier of MSISDN's assignment.",
+            "type": "integer"
+          }
+        }
+      },
+      "MSISDN": {
+        "type": "object",
+        "properties": {
+          "msisdn": {
+            "description": "The identifier of the MSISDN.",
+            "type": "integer"
+          },
+          "country_code": {
+            "description": "The country code.",
+            "type": "integer"
+          },
+          "iso3": {
+            "description": "ISO3 code of the country.",
+            "type": "string"
+          },
+          "date_added": {
+            "description": "The date of MSISDN has been added.",
+            "type": "integer"
+          },
+          "inventory": {
+            "description": "Identifier of the inventory.",
+            "type": "integer"
+          },
+          "isCli": {
+            "description": "Is CLI presented on the MSISDN.",
+            "type": "boolean"
+          },
+          "status": {
+            "description": "The status of the MSISDN.",
+            "type": "string",
+            "enum": [
+              "ASSIGNED",
+              "UNASSIGNED"
+            ]
+          },
+          "current_assignment": {
+            "type": "object",
+            "properties": {
+              "sim": {
+                "description": "The identifier of the SIM.",
+                "type": "string"
+              },
+              "assigned_date": {
+                "description": "The date of MSISDN has been assigned.",
+                "type": "integer"
+              },
+              "assigned_id": {
+                "description": "The identifier of MSISDN's assignment.",
+                "type": "integer"
+              }
+            }
+          }
+        }
+      },
       "EUICC_profile": {
         "type": "object",
         "properties": {
@@ -7421,6 +9078,10 @@
             "description": "The date when the package template was deactivated, expressed as a Unix timestamp (In millisecond). It will be 0 if the template is active or has never been deactivated.",
             "type": "integer",
             "format": "int64"
+          },
+          "apn": {
+            "description": "This field indicates the Access Point Name (APN) associated with the package template.",
+            "type": "string"
           }
         }
       },
@@ -7622,6 +9283,23 @@
             "items": {
               "$ref": "#/components/schemas/Wallet"
             }
+          },
+          "route_policy": {
+            "description": "The route policy determines how the signal is handled and terminated on the network layer. For more info, please consult your account manager.",
+            "type": "integer"
+          }
+        }
+      },
+      "Route_policy": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "description": "This is a unique identifier for each route policy. It allows you to distinguish one policy from another within the system.",
+            "type": "integer"
+          },
+          "description": {
+            "description": "This field provides a summary of what each route policy does, specifically outlining how it affects singaling handling and termination on the network layer.",
+            "type": "string"
           }
         }
       },
@@ -7686,6 +9364,10 @@
           },
           "charge_towards": {
             "description": "The charging mechanism for the data session, such as \"PACKAGE\" or \"BALANCE\".",
+            "type": "string"
+          },
+          "apn": {
+            "description": "This field indicates the Access Point Name (APN) associated with the data session.",
             "type": "string"
           }
         }
