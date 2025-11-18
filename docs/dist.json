@@ -20,6 +20,11 @@
       "url": "https://api.pondmobile.com/v2.1"
     }
   ],
+  "security": [
+    {
+      "bearer": []
+    }
+  ],
   "paths": {
     "/core/countries": {
       "get": {
@@ -4257,7 +4262,7 @@
           },
           {
             "name": "sim",
-            "in": "body",
+            "in": "query",
             "required": true,
             "description": "The identifier of the SIM.",
             "schema": {
@@ -4265,8 +4270,8 @@
             }
           },
           {
-            "name": "body",
-            "in": "path",
+            "name": "cli",
+            "in": "query",
             "required": true,
             "description": "Whether mark this MSISDN as cli or not. If this is a first MSISDN of a SIM than parameter will be ignored and set to true.",
             "schema": {
@@ -8336,7 +8341,7 @@
           "A2P SMS"
         ],
         "summary": "Send SMS.",
-        "operationId": "sendSMS",
+        "operationId": "sendBinarySMS",
         "description": "The endpoint sends a SMS request via API to the subscriber. MSISDN is not required for the subscriber to receive the SMS.",
         "requestBody": {
           "content": {
@@ -8508,13 +8513,203 @@
           }
         }
       }
+    },
+    "/https://CLIENT_HOST/dest_url_package_usage_alert": {
+      "post": {
+        "tags": [
+          "Webhooks"
+        ],
+        "summary": "Package Data Usage Alert Event",
+        "operationId": "webhook-esim-status-change-event",
+        "description": "When the package of a SIM reaches 50 or 80 percent of its total data allowance, this webhook will be sent to the specified endpoint, providing the essential details of the associated SIM, package, and session information.",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "eventName": {
+                    "description": "The name of the event, which in this case is \"PACKAGE_DATA_USAGE_ALERT\".",
+                    "type": "string"
+                  },
+                  "eventTimestamp": {
+                    "description": "UTC timestamp when the event occurred, expressed as a Unix timestamp in milliseconds (for example, 1689714160492).",
+                    "type": "integer",
+                    "format": "int64"
+                  },
+                  "eventDetails": {
+                    "description": "An object containing detailed information about the event.",
+                    "$ref": "#/components/schemas/Usage_alert_event_details"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "The client endpoint must respond with an HTTP status code of 200 OK to acknowledge the successful delivery of the event. This response code indicates that the client has received and processed the webhook payload successfully."
+          }
+        }
+      }
+    },
+    "/https://CLIENT_HOST/dest_url_package_status_change": {
+      "post": {
+        "tags": [
+          "Webhooks"
+        ],
+        "summary": "Package Status Change Event",
+        "operationId": "webhook-package-status-change-event",
+        "description": "The Package Status Change event signifies a modification in the status of a package. The event body includes comprehensive information such as package details, package template, owner SIM, and owner inventory. Please note that, at present, the production environment only supports package termination events for V1 and V2 messages (Enabled before 2024.09.01), but V3 message (Enabled on/after 2024.09.01) will support both ACTIVATED and TERMINATED package status events. For signature comparison, please see the examples.",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "eventName": {
+                    "description": "The name of the event. In this case, it will be \"PACKAGE_STATUS_CHANGE\" representing the name of the package status change event.",
+                    "type": "string"
+                  },
+                  "eventTimestamp": {
+                    "description": "UTC timestamp when the event occurred, expressed as a Unix timestamp in milliseconds (for example, 1689714160492).",
+                    "type": "integer",
+                    "format": "int64"
+                  },
+                  "eventDetails": {
+                    "description": "Detailed information associated to the event and the terminated package.",
+                    "$ref": "#/components/schemas/Package_status_change_event_details"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "The client endpoint must respond with an HTTP status code of 200 OK to acknowledge the successful delivery of the event. This response code indicates that the client has received and processed the webhook payload successfully."
+          }
+        }
+      }
+    },
+    "/https://CLIENT_HOST/dest_url_a2p_sms_mo_received": {
+      "post": {
+        "tags": [
+          "Webhooks"
+        ],
+        "summary": "A2P SMS (MO) Received Event",
+        "operationId": "a2p-sms-mo-received-event",
+        "description": "The specified endpoint receives notifications for Mobile Originated (MO) A2P SMS events. When a device sends an SMS to a specified short code, this webhook is triggered to deliver the event details to your system. The client endpoint must respond with an HTTP status code of 200 OK to confirm the successful receipt and processing of the webhook payload.",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "eventName": {
+                    "description": "The name of the event, indicating that a Mobile Originated A2P SMS has been received. In the case of an A2P SMS (MO) received event, the value will be A2P_SMS_MO_RECEIVED.",
+                    "type": "string"
+                  },
+                  "eventTimestamp": {
+                    "description": "UTC timestamp when the event occurred, expressed as a Unix timestamp in milliseconds (for example, 1689714160492).",
+                    "type": "integer",
+                    "format": "int64"
+                  },
+                  "eventDetails": {
+                    "description": "Detailed information associated to the event and the terminated package.",
+                    "$ref": "#/components/schemas/A2P_SMS_received_event_details"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "The client endpoint must respond with an HTTP status code of 200 OK to acknowledge the successful delivery of the event. This response code indicates that the client has received and processed the webhook payload successfully."
+          }
+        }
+      }
+    },
+    "/https://CLIENT_HOST/dest_url_imei_change": {
+      "post": {
+        "tags": [
+          "Webhooks"
+        ],
+        "summary": "IMEI Change Event",
+        "operationId": "webhook-imei-change-event",
+        "description": "This event indicates that a new IMEI value is detected during the most recent location update event of a SIM (comparing to the IMEI value used in the previous location update). Since the IMEI field is optional during the data exchange with the VPLMN, this event may not capture all IMEI changes.",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "eventName": {
+                    "description": "The name of the event. In this case, it will be \"DEVICE_IMEI_CHANGE\", representing the IMEI change event.",
+                    "type": "string"
+                  },
+                  "eventTimestamp": {
+                    "description": "UTC timestamp when the event occurred, expressed as a Unix timestamp in milliseconds (for example, 1689714160492).",
+                    "type": "integer",
+                    "format": "int64"
+                  },
+                  "eventDetails": {
+                    "description": "This object contains detailed information about the IMEI change event.",
+                    "$ref": "#/components/schemas/IMEI_change_event_details"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "The client endpoint must respond with an HTTP status code of 200 OK to acknowledge the successful delivery of the event. This response code indicates that the client has received and processed the webhook payload successfully."
+          }
+        }
+      }
+    },
+    "/https://CLIENT_HOST/dest_url_sim_transfer_result": {
+      "post": {
+        "tags": [
+          "Callbacks"
+        ],
+        "summary": "SIM Transfer Callback",
+        "operationId": "post-dest_url_sim_transfer_result",
+        "description": "This endpoint receives the callback notification once the transfer request is processed.",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "eventName": {
+                    "description": "The event name. In this callback the value is \"SIM_TRANSFER_CALLBACK\"",
+                    "type": "string"
+                  },
+                  "eventTimestamp": {
+                    "description": "UTC timestamp when the event occurred, expressed as a Unix timestamp in milliseconds (for example, 1689714160492).",
+                    "type": "integer",
+                    "format": "int64"
+                  },
+                  "eventDetails": {
+                    "description": "Detailed information associated to the event.",
+                    "$ref": "#/components/schemas/SIM_transfer_event_details"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "The receiving endpoint should reply HTTP 200 to acknowledge the delivery of the callback request."
+          }
+        }
+      }
     }
   },
-  "security": [
-    {
-      "bearer": []
-    }
-  ],
   "components": {
     "securitySchemes": {
       "bearer": {
@@ -9414,6 +9609,234 @@
             "type": "string"
           },
           "value": {
+            "type": "string"
+          }
+        }
+      },
+      "Usage_alert_SIM": {
+        "type": "object",
+        "properties": {
+          "iccid": {
+            "description": "The ICCID (Integrated Circuit Card Identifier) of the SIM card.",
+            "type": "string"
+          },
+          "sponsorImsi": {
+            "description": "The IMSI of the sponsor related to the SIM, for example, \"732123201070005\".",
+            "type": "string"
+          },
+          "customerImsi": {
+            "description": "The mapped IMSI (Internally translated) of the SIM, for example, \"312300001012346\".",
+            "type": "string"
+          }
+        }
+      },
+      "Usage_alert_package": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "description": "The unique identifier of the package, for example, \"ea869187-00ae-4042-946f-d1eef5249711\".",
+            "type": "string"
+          },
+          "packageUsedBytes": {
+            "description": "The amount of data usage in bytes that the package has consumed so far, for example, 1717986919.",
+            "type": "integer"
+          },
+          "packageTotalBytes": {
+            "description": "The total data allowance of the package in bytes, for example, 2147483648.",
+            "type": "integer"
+          },
+          "percentageUsed": {
+            "description": "The percentage of data allowance used by the package. This field will be included in the event only when the package reaches 50 or 80 percent of its total data allowance. For example, if the package has used 80% of its total data allowance, this field will have a value of 80.",
+            "type": "integer"
+          }
+        }
+      },
+      "Usage_alert_event_details": {
+        "type": "object",
+        "properties": {
+          "diameterSession": {
+            "description": "A session identifier related to the event (masked for security), such as \"*********;201424743;955475456;373834603313\".",
+            "type": "string"
+          },
+          "activeSession": {
+            "description": "The identifier of an active session related to the event, for example, \"905599036\".",
+            "type": "string"
+          },
+          "sim": {
+            "description": "An object containing information about the SIM associated with the event.",
+            "$ref": "#/components/schemas/Usage_alert_SIM"
+          },
+          "package": {
+            "description": "An object containing information about the package associated with the event.",
+            "$ref": "#/components/schemas/Usage_alert_package"
+          }
+        }
+      },
+      "Package_status_change_inventory": {
+        "description": "Information about the associated inventory.",
+        "type": "object",
+        "properties": {
+          "id": {
+            "description": "ID of the inventory.",
+            "type": "integer"
+          },
+          "name": {
+            "description": "The name of the inventory.",
+            "type": "string"
+          }
+        }
+      },
+      "Package_status_change_package": {
+        "description": "Information about the package related to the event.",
+        "type": "object",
+        "properties": {
+          "id": {
+            "description": "ID of the package.",
+            "type": "string"
+          },
+          "status": {
+            "description": "The status of package (ACTIVATED or TERMINATED).",
+            "type": "string"
+          }
+        }
+      },
+      "Package_status_change_SIM": {
+        "description": "Information about the SIM card related to the event.",
+        "type": "object",
+        "properties": {
+          "iccid": {
+            "description": "ICCID of the SIM card.",
+            "type": "string"
+          }
+        }
+      },
+      "Package_status_change_package_template": {
+        "description": "Information about the package template related to the event.",
+        "type": "object",
+        "properties": {
+          "id": {
+            "description": "ID of the package template.",
+            "type": "integer"
+          },
+          "name": {
+            "description": "The name of the package template.",
+            "type": "string"
+          }
+        }
+      },
+      "Package_status_change_event_details": {
+        "type": "object",
+        "properties": {
+          "inventory": {
+            "description": "Information about the associated inventory.",
+            "$ref": "#/components/schemas/Package_status_change_inventory"
+          },
+          "package": {
+            "description": "Information about the package related to the event.",
+            "$ref": "#/components/schemas/Package_status_change_package"
+          },
+          "sim": {
+            "description": "An object containing information about the SIM associated with the event.",
+            "$ref": "#/components/schemas/Package_status_change_SIM"
+          },
+          "package_template": {
+            "description": "An object containing information about the package template associated with the event.",
+            "$ref": "#/components/schemas/Package_status_change_package_template"
+          }
+        }
+      },
+      "A2P_SMS_received_event_details": {
+        "description": "An object containing specific details about the SMS event.",
+        "type": "object",
+        "properties": {
+          "srcAddr": {
+            "description": "The source MSISDN (phone number) that sent the SMS. In the case of A2P SMS (MO), this would be the internal technical MSISDN attached to the SIM.",
+            "type": "string"
+          },
+          "dstAddr": {
+            "description": "The destination MSISDN (phone number) that is set to receive the SMS. In the case of A2P SMS (MO), this would be the short code that the SMS is being sent to.",
+            "type": "string"
+          },
+          "sms": {
+            "description": "The content of the SMS message.",
+            "type": "string"
+          },
+          "companyId": {
+            "description": "The ID of the company under which the originating SIM is registered.",
+            "type": "integer"
+          },
+          "iccid": {
+            "description": "The ICCID of the SIM that originated the SMS.",
+            "type": "string"
+          }
+        }
+      },
+      "IMEI_change_distributor": {
+        "description": "Information about the distributor associated with the SIM.",
+        "type": "object",
+        "properties": {
+          "id": {
+            "description": "ID of the distributor.",
+            "type": "integer"
+          },
+          "name": {
+            "description": "The name of the distributor.",
+            "type": "string"
+          }
+        }
+      },
+      "IMEI_change_IMEI": {
+        "description": "An object containing the previous and current IMEI values.",
+        "type": "object",
+        "properties": {
+          "previousValue": {
+            "description": "The previous IMEI value reported for the device.",
+            "type": "string"
+          },
+          "currentValue": {
+            "description": "The current IMEI value reported for the device after the change.",
+            "type": "string"
+          }
+        }
+      },
+      "IMEI_change_SIM": {
+        "description": "Information about the SIM that experienced the IMEI change.",
+        "type": "object",
+        "properties": {
+          "iccid": {
+            "description": "The ICCID of the SIM that experienced the IMEI change.",
+            "type": "string"
+          },
+          "imei": {
+            "description": "An object containing the previous and current IMEI values.",
+            "$ref": "#/components/schemas/IMEI_change_IMEI"
+          }
+        }
+      },
+      "IMEI_change_event_details": {
+        "description": "An object containing specific details about the SMS event.",
+        "type": "object",
+        "properties": {
+          "distributor": {
+            "description": "Information about the distributor associated with the SIM.",
+            "$ref": "#/components/schemas/IMEI_change_distributor"
+          },
+          "sim": {
+            "description": "Information about the SIM that experienced the IMEI change.",
+            "$ref": "#/components/schemas/IMEI_change_SIM"
+          }
+        }
+      },
+      "SIM_transfer_event_details": {
+        "description": "Detailed information associated to the event.",
+        "type": "object",
+        "properties": {
+          "id": {
+            "description": "The UUID of the original sim transfer request.",
+            "type": "string"
+          },
+          "status": {
+            "description": "The status of sim transfer request (FAILED, IN_PROGRESS, SUCCESS).",
             "type": "string"
           }
         }
