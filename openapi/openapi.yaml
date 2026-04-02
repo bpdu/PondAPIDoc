@@ -60,15 +60,15 @@ paths:
                 type: object
                 properties:
                   total:
-                    description: The total number of countries in the response.
+                    description: This field indicates the total number of package templates in the system.
                     type: integer
                     format: int64
                   offset:
-                    description: The offset value used for pagination, indicating the starting point of the returned countries.
+                    description: This field indicates the starting point in the data set from which package templates are returned.
                     type: integer
                     format: int64
                   count:
-                    description: The number of countries included in the current response.
+                    description: This field indicates the number of package templates that are returned in the current response.
                     type: integer
                     minimum: 1
                     maximum: 100
@@ -181,11 +181,11 @@ paths:
                     type: integer
                     format: int64
                   offset:
-                    description: The offset value used for pagination, indicating the starting point of the returned countries.
+                    description: The offset value used for pagination, indicating the starting point of the returned SIM transfers.
                     type: integer
                     format: int64
                   count:
-                    description: The number of countries included in the current response.
+                    description: The number of SIM transfers included in the current response.
                     type: integer
                     minimum: 1
                     maximum: 100
@@ -599,15 +599,15 @@ paths:
                 type: object
                 properties:
                   total:
-                    description: The total number of countries in the response.
+                    description: This field indicates the total number of package templates in the system.
                     type: integer
                     format: int64
                   offset:
-                    description: The offset value used for pagination, indicating the starting point of the returned countries.
+                    description: This field indicates the starting point in the data set from which package templates are returned.
                     type: integer
                     format: int64
                   count:
-                    description: The number of countries included in the current response.
+                    description: This field indicates the number of package templates that are returned in the current response.
                     type: integer
                     minimum: 1
                     maximum: 100
@@ -807,7 +807,7 @@ paths:
             type: string
       responses:
         "200":
-          description: On success, the sub-company is returned.
+          description: On success, the inventory is returned.
           headers:
             request-id:
               description: The 'Request-ID' from request header will be provided as it is in response header.
@@ -1008,7 +1008,7 @@ paths:
             type: string
       responses:
         "200":
-          description: On success, the list of groups is returned.
+          description: On success, the list of packages is returned.
           headers:
             request-id:
               description: The 'Request-ID' from request header will be provided as it is in response header.
@@ -1024,15 +1024,15 @@ paths:
                 type: object
                 properties:
                   total:
-                    description: The total number of groups in the response.
+                    description: The total number of packages meeting the specified fetch criteria.
                     type: integer
                     format: int64
                   offset:
-                    description: The offset value used for pagination, indicating the starting point of the returned countries.
+                    description: The offset value used for pagination, indicating the starting point of the returned packages.
                     type: integer
                     format: int64
                   count:
-                    description: The number of countries included in the current response.
+                    description: The number of packages included in the current response.
                     type: integer
                     minimum: 1
                     maximum: 100
@@ -1116,6 +1116,13 @@ paths:
                 template:
                   description: If provided, the group is going to be created and automatically activated based on the specification of the pre-defined template. To acquire a template ID, please speak with your account manager.
                   type: integer
+                type:
+                  description: The type of the group. Possible values are: CLASSIC, UNIVERSAL_DATA_ONLY, UNIVERSAL_VOICE.
+                  type: string
+                  enum:
+                    - CLASSIC
+                    - UNIVERSAL_DATA_ONLY
+                    - UNIVERSAL_VOICE
       parameters:
         - name: request-id
           in: header
@@ -1510,6 +1517,11 @@ paths:
           description: This query parameter allows you to filter the results of the list SIMs endpoint based on the group to which the SIMs belong.
           schema:
             type: integer
+        - name: status
+          in: query
+          description: This query parameter allows you to filter the results of the list SIMs endpoint based on the status to which the SIMs belong.
+          schema:
+            type: string
         - name: request-id
           in: header
           description: The parameter is returned in the response header. It functions as a reference ID to assist client-side developers, particularly when working with asynchronous systems. This unique identifier helps in tracking individual requests, aiding in troubleshooting and system monitoring.
@@ -1538,15 +1550,15 @@ paths:
                 type: object
                 properties:
                   total:
-                    description: The total number of groups in the response.
+                    description: The total number of packages meeting the specified fetch criteria.
                     type: integer
                     format: int64
                   offset:
-                    description: The offset value used for pagination, indicating the starting point of the returned countries.
+                    description: The offset value used for pagination, indicating the starting point of the returned packages.
                     type: integer
                     format: int64
                   count:
-                    description: The number of countries included in the current response.
+                    description: The number of packages included in the current response.
                     type: integer
                     minimum: 1
                     maximum: 100
@@ -1648,7 +1660,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/SIM"
+                $ref: "#/components/schemas/SIM_Detail"
         "400":
           description: Invalid inputs.
           headers:
@@ -1940,11 +1952,11 @@ paths:
                     type: integer
                     format: int64
                   offset:
-                    description: The offset value used for pagination, indicating the starting point of the returned countries.
+                    description: The offset value used for pagination, indicating the starting point of the returned SIM transfers.
                     type: integer
                     format: int64
                   count:
-                    description: The number of countries included in the current response.
+                    description: The number of SIM transfers included in the current response.
                     type: integer
                     minimum: 1
                     maximum: 100
@@ -2026,10 +2038,10 @@ paths:
                   description: The identifier of the target inventory where the SIM cards will be transferred. This should be one of the company's existing inventories.
                   type: integer
                 dest_whitelist:
-                  description: The identifier of the whitelist in the destinaion inventory to which the transferred  SIM cards will be assigned.
+                  description: The identifier of the whitelist in the destination inventory to which the transferred SIM cards will be assigned.
                   type: integer
                 dest_group:
-                  description: The identifier of the group in the destinaion inventory to which the transferred  SIM cards will be assigned.
+                  description: The identifier of the group in the destination inventory to which the transferred SIM cards will be assigned.
                   type: integer
                 wallet_mode:
                   description: The wallet mode for the transferred SIM cards, such as "SIM".
@@ -2405,15 +2417,15 @@ paths:
                 type: object
                 properties:
                   total:
-                    description: The total number of groups in the response.
+                    description: The total number of packages meeting the specified fetch criteria.
                     type: integer
                     format: int64
                   offset:
-                    description: The offset value used for pagination, indicating the starting point of the returned countries.
+                    description: The offset value used for pagination, indicating the starting point of the returned packages.
                     type: integer
                     format: int64
                   count:
-                    description: The number of countries included in the current response.
+                    description: The number of packages included in the current response.
                     type: integer
                     minimum: 1
                     maximum: 100
@@ -2623,15 +2635,15 @@ paths:
                 type: object
                 properties:
                   total:
-                    description: The total number of groups in the response.
+                    description: The total number of packages meeting the specified fetch criteria.
                     type: integer
                     format: int64
                   offset:
-                    description: The offset value used for pagination, indicating the starting point of the returned countries.
+                    description: The offset value used for pagination, indicating the starting point of the returned packages.
                     type: integer
                     format: int64
                   count:
-                    description: The number of countries included in the current response.
+                    description: The number of packages included in the current response.
                     type: integer
                     minimum: 1
                     maximum: 100
@@ -2889,12 +2901,12 @@ paths:
                   error:
                     type: string
   /inventory/msisdns/{msisdn}/cli:
-    get:
+    put:
       tags:
         - Inventory
       summary: Set a MSISDN as cli.
       operationId: set-cli-msisdn-assignment
-      description: This endpoint sets a MSISDN as cli if the MSISDN is already assigned to a sim.
+      description: Set a MSISDN as cli if the MSISDN is already assigned to a sim.
       parameters:
         - name: msisdn
           in: path
@@ -2930,15 +2942,15 @@ paths:
                 type: object
                 properties:
                   total:
-                    description: The total number of groups in the response.
+                    description: The total number of packages meeting the specified fetch criteria.
                     type: integer
                     format: int64
                   offset:
-                    description: The offset value used for pagination, indicating the starting point of the returned countries.
+                    description: The offset value used for pagination, indicating the starting point of the returned packages.
                     type: integer
                     format: int64
                   count:
-                    description: The number of countries included in the current response.
+                    description: The number of packages included in the current response.
                     type: integer
                     minimum: 1
                     maximum: 100
@@ -3001,7 +3013,7 @@ paths:
                 properties:
                   error:
                     type: string
-  /esim-rsp/EUICC-profiles/{iccid}:
+  /esim-rsp/euicc-profiles/{iccid}:
     get:
       tags:
         - eSIM RSP
@@ -3240,15 +3252,15 @@ paths:
                 type: object
                 properties:
                   total:
-                    description: The total number of countries in the response.
+                    description: This field indicates the total number of package templates in the system.
                     type: integer
                     format: int64
                   offset:
-                    description: The offset value used for pagination, indicating the starting point of the returned countries.
+                    description: This field indicates the starting point in the data set from which package templates are returned.
                     type: integer
                     format: int64
                   count:
-                    description: The number of countries included in the current response.
+                    description: This field indicates the number of package templates that are returned in the current response.
                     type: integer
                     minimum: 1
                     maximum: 100
@@ -3335,20 +3347,23 @@ paths:
                   items:
                     type: string
                 voice_usage_allowance:
-                  description: The allowed amount of voice usage in the package. The value for this field is in minute.
+                  description: The allowed amount of voice usage for the package template. The value of this field is in minutes.
                   type: integer
                 data_usage_allowance:
-                  description: The allowed amount of data usage in the package. The value for this field is in minute.
+                  description: The allowed amount of data usage for the package template. The value of this field is in bytes.
                   type: integer
                 sms_usage_allowance:
-                  description: The allowed amount of sms usage in the package. The value for this field is in minute.
+                  description: The allowed amount of SMS usage for the package template. The value of this field is in messages.
                   type: integer
                 activation_time_allowance:
-                  description: The time duration within which the package can be activated after its creation. The value for this field is in second.
+                  description: The time duration within which the package associated with the template can be activated after its creation. The value for this field is in seconds.
                   type: integer
                 activation_type:
                   description: It specifies how a package template is activated. It can be either "Auto" or "Manual." The "Auto" activation type, an improved version of the former (v1 version) LU or PDP event-based activation, allows for automatic activation when a valid connection is established. On the other hand, "Manual" activation requires a request, such as an API call, to activate the package. Packages with "Auto" activation can also be manually activated using API requests when necessary.
                   type: string
+                  enum:
+                    - AUTO
+                    - MANUAL
                 earliest_activation_date:
                   description: This field indicates the earliest time, expressed as a Unix timestamp (In millisecond), at which the package template can be made available for purchase. Packages can only be added to a SIM within this specified timeframe.
                   type: integer
@@ -3365,21 +3380,24 @@ paths:
                   description: Additional information or notes about the package template.
                   type: string
                 time_allowance:
-                  description: An object specifying the duration and unit (e.g., "CALENDAR_MONTH") of the package's validity.
+                  description: An object specifying the duration and unit (e.g., "CALENDAR_MONTH") of the package template's validity.
                   type: object
                   properties:
                     duration:
-                      description: The duration of the package's validity.
+                      description: The duration of the package template's validity.
                       type: integer
                       format: int64
                     unit:
-                      description: The unit of the package's validity, such as "CALENDAR_MONTH", "SECOND".
+                      description: The unit of the package template's validity, such as "CALENDAR_MONTH", "SECOND".
                       type: string
+                      enum:
+                        - CALENDAR_MONTH
+                        - SECOND
                 inventory:
                   description: The inventory in which the package template is created. This parameter specifies the inventory to which the package template is associated. Only SIMs within the same inventory can be assigned a package using this package template.
                   type: integer
                 apn:
-                  description: Optional. If specified, the package beahvior would only applied to data sessions opened by the specified APN.
+                  description: Optional. If specified, the package behavior would only be applied to data sessions opened by the specified APN.
                   type: string
 
       parameters:
@@ -3570,8 +3588,11 @@ paths:
               type: object
               properties:
                 package_status:
-                  description: The new status to be set for the package, such as "ACTIVE" or "TERMINATED".
+                  description: The new status to be set for the package. The value "ACTIVE" indicates that the package should be set as active.
                   type: string
+                  enum:
+                    - ACTIVE
+                    - TERMINATED
       parameters:
         - name: package_id
           in: path
@@ -3705,7 +3726,7 @@ paths:
             type: string
       responses:
         "200":
-          description: On success, the list of groups is returned.
+          description: On success, the list of packages is returned.
           headers:
             request-id:
               description: The 'Request-ID' from request header will be provided as it is in response header.
@@ -3721,15 +3742,15 @@ paths:
                 type: object
                 properties:
                   total:
-                    description: The total number of groups in the response.
+                    description: The total number of packages meeting the specified fetch criteria.
                     type: integer
                     format: int64
                   offset:
-                    description: The offset value used for pagination, indicating the starting point of the returned countries.
+                    description: The offset value used for pagination, indicating the starting point of the returned packages.
                     type: integer
                     format: int64
                   count:
-                    description: The number of countries included in the current response.
+                    description: The number of packages included in the current response.
                     type: integer
                     minimum: 1
                     maximum: 100
@@ -3904,7 +3925,7 @@ paths:
       parameters:
         - name: count
           in: query
-          description: The number of items you want to retrieve in a single API call.
+          description: To specify the number of items you want to retrieve in a single API call.
           schema:
             type: integer
         - name: offset
@@ -3914,9 +3935,10 @@ paths:
             type: integer
         - name: inventory
           in: query
-          description: This query parameter allows you to filter the results of the list packages endpoint based on the inventory to which the packages belong.
+          description: Check all available route policies of the specified inventory.
+          required: true
           schema:
-            type: integer
+            type: string
         - name: request-id
           in: header
           description: The parameter is returned in the response header. It functions as a reference ID to assist client-side developers, particularly when working with asynchronous systems. This unique identifier helps in tracking individual requests, aiding in troubleshooting and system monitoring.
@@ -3945,15 +3967,15 @@ paths:
                 type: object
                 properties:
                   total:
-                    description: The total number of groups in the response.
+                    description: The total number of route policies meeting the specified fetch criteria.
                     type: integer
                     format: int64
                   offset:
-                    description: The offset value used for pagination, indicating the starting point of the returned countries.
+                    description: The offset value used for pagination, indicating the starting point of the returned route policies.
                     type: integer
                     format: int64
                   count:
-                    description: The number of countries included in the current response.
+                    description: The number of route policies included in the current response.
                     type: integer
                     minimum: 1
                     maximum: 100
@@ -4150,7 +4172,7 @@ paths:
                   description: The desired mode of the wallet usage, such as "GROUP" or "SIM". This specifies which wallet the SIM's usage should be charged towards.
                   type: string
                 route_policy:
-                  description: Optional. The route policy determines how the signal is handled and terminated on the network layer. For more info, please consult your account manager.
+                  description: OPTIONAL. The route policy determines how the signal is handled and terminated on the network layer. For more info, please consult your account manager.
                   type: integer
       parameters:
         - name: iccid
@@ -4245,7 +4267,7 @@ paths:
       parameters:
         - name: count
           in: query
-          description: The number of items you want to retrieve in a single API call.
+          description: To specify the number of items you want to retrieve in a single API call.
           schema:
             type: integer
         - name: offset
@@ -4265,7 +4287,7 @@ paths:
             type: string
       responses:
         "200":
-          description: On success, the package template is returned.
+          description: On success, the list of traffic policies is returned.
           headers:
             request-id:
               description: The 'Request-ID' from request header will be provided as it is in response header.
@@ -4281,20 +4303,20 @@ paths:
                 type: object
                 properties:
                   total:
-                    description: The total number of groups in the response.
+                    description: This field indicates the total number of entries found.
                     type: integer
                     format: int64
                   offset:
-                    description: The offset value used for pagination, indicating the starting point of the returned countries.
+                    description: This field is used for pagination purposes. It specifies the starting point in the list of results and helps in navigating through larger sets of data.
                     type: integer
                     format: int64
                   count:
-                    description: The number of countries included in the current response.
+                    description: This field shows the number of entries returned in the current response. It depends on the limit set for each page.
                     type: integer
                     minimum: 1
                     maximum: 100
                   traffic_policies:
-                    description: An array containing the list of policies.
+                    description: An array containing the list of traffic policies.
                     type: array
                     items:
                       $ref: "#/components/schemas/Traffic_policy"
@@ -4356,9 +4378,11 @@ paths:
     get:
       tags:
         - Policy and Charging Rules (PCR)
-      summary: Retieve a traffic policy.
+      summary: Retrieve a traffic policy.
       operationId: getTrafficPolicyById
       description: The endpoint retrieves a specific traffic policy. A traffic policy is a rule that dictates the throttling of data speed for SIM cards. Depending on the policy settings, it can limit or enhance the data transmission rate for a particular SIM card.
+
+      If you require a new traffic policy definition, please get in touch with your account manager.
       parameters:
         - name: traffic_policy_id
           in: path
@@ -4452,7 +4476,9 @@ paths:
         - Policy and Charging Rules (PCR)
       summary: Retrieve a wallet.
       operationId: getWalletById
-      description: The endpoint accesses a specific wallet information.
+      description: To access specific wallet information.
+
+      For Cronus Cloud Network (CCN) customers, a wallet is automatically generated and linked whenever an Inventory, Group, or SIM entity is created. This entity (inventory, group, or SIM) is considered the 'owner' of the wallet. The 'wallet_type' parameter also specifies the type of entity to which the wallet is connected.
       parameters:
         - name: wallet_id
           in: path
@@ -4545,7 +4571,7 @@ paths:
         - Policy and Charging Rules (PCR)
       summary: Modify a wallet.
       operationId: updateWallet
-      description: The endpoint allows you to update specific attributes of the chosen wallet.
+      description: This endpoint allows users to update their wallet information. A successful response from the PATCH request indicates that the request has been successfully received and processed. However, please note that the update to the wallet balance may take some time to reflect in the system. Users are advised to check back later for the most current balance information.
       requestBody:
         content:
           application/json:
@@ -4595,10 +4621,6 @@ paths:
               description: The 'Reference-ID' will be generated uniquely by the system and assign it to each request served by the system. It will be used for internal traceability. It will be very helpful if provided in support ticket.
               schema:
                 type: string
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Wallet"
         "400":
           description: Invalid inputs.
           headers:
@@ -4657,9 +4679,13 @@ paths:
     get:
       tags:
         - Session Management
-      summary: List of open data sessions.
+      summary: Retrieve SIM open data sessions.
       operationId: getOpenDataSessions
-      description: The endpoint allows you to retrieve information about the currently open data sessions for a specific SIM card. Open data sessions represent active connections where the SIM card is actively using data services.
+      description: This endpoint allows you to retrieve information about the currently open data sessions for a specific SIM card. Open data sessions represent active connections where the SIM card is actively using data services.
+
+      **Add-on API Endpoint Access**
+
+      This endpoint belongs to our exclusive range of add-on services, designed to provide a more comprehensive API experience. To access this service, kindly reach out to your respective account manager.
       parameters:
         - name: iccid
           in: query
@@ -4693,8 +4719,8 @@ paths:
               schema:
                 type: object
                 properties:
-                  data_sessions:
-                    description: An array containing the list of sessions.
+                  open_data_sessions:
+                    description: An array containing the list of open data sessions.
                     type: array
                     items:
                       $ref: "#/components/schemas/Session"
@@ -4758,7 +4784,7 @@ paths:
         - Network access
       summary: List whitelists.
       operationId: getWhitelists
-      description: The endpoint allows you to retrieve information about the whitelist(s) which meet the specified criteria. The endpoint returns all applicable whitelists found under the speicifed distributor. The response is paginated.
+      description: List all whitelist(s) which meet the specified criteria. The endpoint returns all applicable whitelists found under the speicifed distributor. The response is paginated.
       parameters:
         - name: iccid
           in: query
@@ -4767,12 +4793,12 @@ paths:
             type: string
         - name: offset
           in: query
-          description: The offset value used for pagination, indicating the starting point of the returned countries.
+          description: The parameter is used in pagination to specify the starting point in the data set from where the 'count' number of items will be returned. For example, if the offset is set to 10 and the count is set to 5, the API will skip the first 10 items and then return the next 5 items in the data set.
           schema:
             type: integer
         - name: count
           in: query
-          description: The number of countries included in the current response.
+          description: To specify the number of items you want to retrieve in a single API call.
           schema:
             type: integer
         - name: request-id
@@ -4787,7 +4813,7 @@ paths:
             type: string
       responses:
         "200":
-          description: On success, the list of data sessions is returned.
+          description: On success, the list of whitelists is returned.
           headers:
             request-id:
               description: The 'Request-ID' from request header will be provided as it is in response header.
@@ -4807,11 +4833,11 @@ paths:
                     type: integer
                     format: int64
                   offset:
-                    description: The offset value used for pagination, indicating the starting point of the returned countries.
+                    description: The offset value used for pagination, indicating the starting point of the returned whitelists.
                     type: integer
                     format: int64
                   count:
-                    description: The number of countries included in the current response.
+                    description: The number of whitelists included in the current response.
                     type: integer
                     minimum: 1
                     maximum: 100
@@ -4880,7 +4906,7 @@ paths:
         - Network access
       summary: List assigned SIMs under a whitelist.
       operationId: getSIMByWhitelistId
-      description: The endpoint allows to retreive a list of all SIMs under a whitelist. The response is paginated.
+      description: Lists all assigned SIMs under a whitelist. The response is paginated.
       parameters:
         - name: whitelist_id
           in: path
@@ -4888,14 +4914,14 @@ paths:
           description: This path parameter is used to specify the identifier of the whitelist for which you want to retrieve detailed information or update.
           schema:
             type: integer
-        - name: offset
-          in: query
-          description: The offset value used for pagination, indicating the starting point of the returned countries.
-          schema:
-            type: integer
         - name: count
           in: query
-          description: The number of SIMs included to the current response.
+          description: To specify the number of items you want to retrieve in a single API call.
+          schema:
+            type: integer
+        - name: offset
+          in: query
+          description: The parameter is used in pagination to specify the starting point in the data set from where the 'count' number of items will be returned. For example, if the offset is set to 10 and the count is set to 5, the API will skip the first 10 items and then return the next 5 items in the data set.
           schema:
             type: integer
         - name: request-id
@@ -4934,7 +4960,7 @@ paths:
                     type: integer
                     format: int64
                   count:
-                    description: The number of SIMs included to the current response.
+                    description: The number of SIMs included in the current response.
                     type: integer
                     minimum: 1
                     maximum: 100
@@ -5000,9 +5026,18 @@ paths:
     post:
       tags:
         - Network access
-      summary: Assigns SIM to the whitelist.
+      summary: Assigns SIMs to the whitelist.
       operationId: updateWhitelist
-      description: The endpoint assigns one or more SIMs to the whitelist. On success, the request will immediately update the database entry so that future registration of connection will have the new whitelist applied.
+      description: This API assigns one or more SIMs to the whitelist.
+
+      On success, the request will immediately update the database entry so that future registration of connection will have the new whitelist applied.
+
+      If the request is sent during a live connection of the device (SIM):
+      * If the new whitelist blocks the currently registered network, the data connection would drop during the subsequent quota request on the PGW side
+      * The current tower connection is kept alive till the next location update happens. For example, on a mobile handset, the signal bars would remain till the reboot
+      * Cancel location request can immediately remove the device from the network, including the tower connection
+
+      If the device is offline at the time of the request, reconnection is controlled by the device logic (this API does not control the reconnection logic).
       requestBody:
         content:
           application/json:
@@ -5013,7 +5048,7 @@ paths:
                   description: List of SIMs (ICCID) to be assigned to the whitelist.
                   type: array
                   items:
-                    $ref: "#/components/schemas/Iccid"
+                    type: string
       parameters:
         - name: whitelist_id
           in: path
@@ -5107,7 +5142,7 @@ paths:
       parameters:
         - name: iccid
           in: query
-          description: Target ICCID.
+          description: The target ICCID.
           schema:
             type: string
         - name: request-id
@@ -5192,12 +5227,21 @@ paths:
         - A2P SMS
       summary: Send SMS.
       operationId: sendSMS
-      description: The endpoint sends a SMS request via API to the subscriber. MSISDN is not required for the subscriber to receive the SMS.
+      description: Send a SMS request via API to the subscriber. MSISDN is not required for the subscriber to receive the SMS.
+
+      **Add-on API Endpoint Access**
+
+      This endpoint belongs to our exclusive range of add-on services, designed to provide a more comprehensive API experience. To access this service, kindly reach out to your respective account manager.
       requestBody:
         content:
           application/json:
             schema:
               type: object
+              required:
+                - sim
+                - from
+                - validity_period
+                - message
               properties:
                 sim:
                   description: The ICCID of the receiving subscriber.
@@ -5424,7 +5468,7 @@ components:
     Company:
       type: object
       properties:
-        ID:
+        id:
           description: The unique identifier of the sub-company.
           type: integer
         name:
@@ -5446,6 +5490,9 @@ components:
         status:
           description: The current status of the sub-company.
           type: string
+          enum:
+            - ACTIVE
+            - TERMINATED
         deactivated_date:
           description: The date and time when the sub-company was deactivated, expressed as a Unix timestamp in milliseconds. If the sub-company is currently active, this field will be null.
           type: integer
@@ -5495,6 +5542,10 @@ components:
         status:
           description: The current status of the inventory, such as "NOT_ACTIVE".
           type: string
+          enum:
+            - NOT_ACTIVE
+            - ACTIVE
+            - TERMINATED
         deactivated_date:
           description: The date and time when the inventory was deactivated, expressed as a Unix timestamp in milliseconds.
           type: integer
@@ -5548,6 +5599,13 @@ components:
         wallet:
           description: The automatically created and attached wallet for the group. This wallet is associated with the group and can hold a balance that can be used for various purposes. The wallet allows for setting an overdraft limit, which enables the balance to go below zero up to the specified limit.  The SIMs within the group can charge their usage towards their own individual wallets or towards this group's wallet. This configuration is determined by the "Wallet Mode" setting in the SIM's Policy and Charging Rules (PCR) profile.  The wallet provides flexibility in managing and distributing funds within the group. It can be used to achieve a pooled balance where the usage charges of all SIMs in the group contribute to and draw from a shared balance.
           type: integer
+        type:
+          description: The type of the group. Possible values are: CLASSIC, UNIVERSAL_DATA_ONLY, UNIVERSAL_VOICE.
+          type: string
+          enum:
+            - CLASSIC
+            - UNIVERSAL_DATA_ONLY
+            - UNIVERSAL_VOICE
     IMSI:
       type: object
       properties:
@@ -5565,8 +5623,26 @@ components:
           description: The ICCID (Integrated Circuit Card Identifier) of the SIM card.
           type: string
         sim_status:
-          description: The status of the SIM card.
+          description: The status of the SIM card. Possible values are: WAITING_FOR_ASSIGNMENT, PRE_SERVICE, IN_SERVICE, TERMINATED.
           type: string
+          enum:
+            - WAITING_FOR_ASSIGNMENT
+            - PRE_SERVICE
+            - IN_SERVICE
+            - TERMINATED
+        sim_type:
+          description: Represents type of the SIM card. Possible values are: eSIM, SIM.
+          type: string
+          enum:
+            - eSIM
+            - SIM
+        sim_variance:
+          description: Represents variance of the SIM card. Possible values are: UNIVERSAL_DATA_ONLY, UNIVERSAL_VOICE, CLASSIC.
+          type: string
+          enum:
+            - UNIVERSAL_DATA_ONLY
+            - UNIVERSAL_VOICE
+            - CLASSIC
         group:
           description: The identifier of the associated group.
           type: integer
@@ -5618,8 +5694,13 @@ components:
           description: The entity or user who initiated the transfer.
           type: string
         status:
-          description: The status of the transfer, such as "FAILED" or "COMPLETED".
+          description: The status of the transfer. Possible values are: FAILED, SUCCESS, IN_PROGRESS, PENDING.
           type: string
+          enum:
+            - FAILED
+            - SUCCESS
+            - IN_PROGRESS
+            - PENDING
         source_inventory:
           description: An object representing the source inventory from which the SIM cards are transferred.
           type: object
@@ -5647,8 +5728,13 @@ components:
           description: The ICCID (Integrated Circuit Card Identifier) of the SIM card.
           type: string
         status:
-          description: The status of the transfer, such as "FAILED" or "COMPLETED".
+          description: The status of the transfer request for the SIM card. Possible values are: FAILED, SUCCESS, IN_PROGRESS, PENDING.
           type: string
+          enum:
+            - FAILED
+            - SUCCESS
+            - IN_PROGRESS
+            - PENDING
         completed_date:
           description: The date and time when the transfer was completed, expressed as a Unix timestamp in milliseconds.
           type: integer
@@ -5659,6 +5745,67 @@ components:
         failure_message:
           description: An optional message providing additional details about the transfer failure (if applicable).
           type: string
+    SIM_Detail:
+      type: object
+      properties:
+        iccid:
+          description: The ICCID (Integrated Circuit Card Identifier) of the SIM card.
+          type: string
+        sim_status:
+          description: Represents the current status of the SIM card. Possible values are: WAITING_FOR_ASSIGNMENT, PRE_SERVICE, IN_SERVICE, TERMINATED.
+          type: string
+          enum:
+            - WAITING_FOR_ASSIGNMENT
+            - PRE_SERVICE
+            - IN_SERVICE
+            - TERMINATED
+        group:
+          description: An object representing the associated group.
+          type: object
+          properties:
+            id:
+              description: The identifier of the group.
+              type: integer
+            name:
+              description: The name of the group.
+              type: string
+        inventory:
+          description: An object representing the associated inventory.
+          type: object
+          properties:
+            id:
+              description: The identifier of the inventory.
+              type: integer
+            name:
+              description: The name of the inventory.
+              type: string
+        company:
+          description: An object representing the associated company.
+          type: object
+          properties:
+            id:
+              description: The identifier of the company.
+              type: integer
+            name:
+              description: The name of the company.
+              type: string
+        provisioned_date:
+          description: The date when the SIM card was provisioned, expressed as a Unix timestamp in milliseconds.
+          type: integer
+          format: int64
+        terminated_date:
+          description: The date when the SIM card was terminated, if applicable, expressed as a Unix timestamp in milliseconds.
+          type: integer
+          format: int64
+        imsis:
+          description: An array containing the list of IMSIs (International Mobile Subscriber Identities) associated with the SIM card.
+          type: array
+          items:
+            $ref: "#/components/schemas/IMSI"
+        mapped_imsi:
+          description: The identifier of the mapped IMSI (internal), if applicable.
+          type: integer
+          format: int64
     Assignment:
       type: object
       properties:
@@ -5668,9 +5815,11 @@ components:
         assigned_date:
           description: The date of MSISDN has been assigned.
           type: integer
-        assigned_id:
+          format: int64
+        assignment_id:
           description: The identifier of MSISDN's assignment.
           type: integer
+          format: int64
     MSISDN:
       type: object
       properties:
@@ -5707,11 +5856,24 @@ components:
             assigned_date:
               description: The date of MSISDN has been assigned.
               type: integer
-            assigned_id:
+              format: int64
+            assignment_id:
               description: The identifier of MSISDN's assignment.
               type: integer
+              format: int64
     EUICC_profile:
       type: object
+      required:
+        - iccid
+        - imsi
+        - state
+        - last_operation_date
+        - activation_code
+        - reuse_remaining_count
+        - reuse_enabled
+        - profile_reuse_policy
+        - release_date
+        - cc_required
       properties:
         iccid:
           description: Profile ICCID.
@@ -5720,31 +5882,54 @@ components:
           description: Profile IMSI.
           type: string
         state:
-          description: Profile state, such as "AVAILABLE", "ALLOCATED", "LINKED", "CONFIRMED", "RELEASED", "DOWNLOADED", "INSTALLED", "ENABLED", "DISABLED", "ERROR", "UNAVAILABLE" or "DELETED".
+          description: The ESIM Profile States. AVAILABLE: The Profile is available in the inventory of the SM-DP+. ALLOCATED: The Profile is reserved for downloading without being linked to an EID. LINKED: The Profile is reserved for downloading and is linked to an EID. CONFIRMED: The Profile is reserved for downloading (linked or not linked to an EID) with Matching ID and Confirmation Code if required. RELEASED: The Profile is ready for download and installation after Network Configuration by the Operator. DOWNLOADED: The Bound Profile was delivered to the LPA. INSTALLED: The Profile was successfully installed on the eUICC. ENABLED: The last Notification received from the eUICC was an enable Notification. DISABLED: The last Notification received from the eUICC was a disable Notification. ERROR: The Profile has not been installed because of an error case. UNAVAILABLE: The Profile cannot be reused anymore by the SM-DP+. DELETED: The last Notification received from the eUICC was a delete Notification.
           type: string
+          enum:
+            - AVAILABLE
+            - ALLOCATED
+            - LINKED
+            - CONFIRMED
+            - RELEASED
+            - DOWNLOADED
+            - INSTALLED
+            - ENABLED
+            - DISABLED
+            - ERROR
+            - UNAVAILABLE
+            - DELETED
         last_operation_date:
           description: The date/time of last audit trail record for this profile. It represents the absolute time, measured in milliseconds, elapsed since the epoch (January 1, 1970 00:00:00 UTC).
           type: integer
           format: int64
         activation_code:
-          description: Activation code that will be used in QR-code generation
+          description: Activation code that will be used in QR-code generation.
           type: string
         reuse_remaining_count:
-          description: Number of remaining profile reuses. If the value equals to -1, the profile reuse is not limited by reuse count.
+          description: Number of remaining Profile reuses. If the value equals to -1, the Profile reuse is not limited by reuse count.
           type: integer
+          minimum: -1
         reuse_enabled:
-          description: If set 'true', the profile may be reused in accordance with the profile reuse policy. If set 'false', the profile can not be reused.
+          description: If set 'true', the Profile may be reused in accordance with the Profile Reuse Policy. If set 'false', the Profile can not be reused.
           type: boolean
         profile_reuse_policy:
           description: Policy used for all Profiles in the Profile Type that specifies state of profile after deletion. If Profile Reuse Policy is disabled (prp equals NEVER), the other values are ignored. By default the Profile Reuse Policy is disabled.
           type: object
+          required:
+            - reuse_type
+            - max_count
           properties:
             reuse_type:
-              description: Profile Reuse Policy that specifies the condition under which profile can be reused, such as "NEVER", "SAME_EID_MID", "SAME_MID", "NEW_EID_MID".
+              description: Profile Reuse Policy that specifies the condition under which profile can be reused. NEVER: Profile reuse is disabled. SAME_EID_MID: Profile can be reused with same EID and MID. SAME_MID: Profile can be reused with same MID. NEW_EID_MID: Profile can be reused with new EID and MID.
               type: string
+              enum:
+                - NEVER
+                - SAME_EID_MID
+                - SAME_MID
+                - NEW_EID_MID
             max_count:
-              description: The number of maximal reuses. The value should be a nonnegative integer. If the value is set to -1, the profile reuse is unlimited by count.
+              description: The number of maximal reuses. The value should be a nonnegative integer. If the value is set to -1, the Profile reuse is unlimited by count.
               type: integer
+              minimum: -1
         release_date:
           description: Timestamp (in epoch millis) containing the date when profile was released.
           type: integer
@@ -5756,7 +5941,7 @@ components:
           description: Number of Confirmation Code attempts left.
           type: integer
         eid:
-          description: The EID (eSIM Identifier) is the unique ID assigned to a device for eSIM activation. It remains empty until the eSIM is successfully activated, at which point the EID becomes available
+          description: The EID (eSIM Identifier) is the unique ID assigned to a device for eSIM activation. It remains empty until the eSIM is successfully activated, at which point the EID becomes available.
           type: string
     Package_template:
       type: object
@@ -5779,10 +5964,10 @@ components:
           description: The allowed amount of voice usage in the package. The value for this field is in minute.
           type: integer
         data_usage_allowance:
-          description: The allowed amount of data usage in the package. The value for this field is in minute.
+          description: The allowed amount of data usage in the package. The value for this field is in byte.
           type: integer
         sms_usage_allowance:
-          description: The allowed amount of sms usage in the package. The value for this field is in minute.
+          description: The allowed amount of SMS usage in the package. The value for this field is in message.
           type: integer
         activation_time_allowance:
           description: The time duration within which the package can be activated after its creation. The value for this field is in second.
@@ -5790,6 +5975,9 @@ components:
         activation_type:
           description: It specifies how a package template is activated. It can be either "Auto" or "Manual." The "Auto" activation type, an improved version of the former (v1 version) LU or PDP event-based activation, allows for automatic activation when a valid connection is established. On the other hand, "Manual" activation requires a request, such as an API call, to activate the package. Packages with "Auto" activation can also be manually activated using API requests when necessary.
           type: string
+          enum:
+            - AUTO
+            - MANUAL
         earliest_activation_date:
           description: This field indicates the earliest time, expressed as a Unix timestamp (In millisecond), at which the package template can be made available for purchase. Packages can only be added to a SIM within this specified timeframe.
           type: integer
@@ -5824,9 +6012,15 @@ components:
             unit:
               description: The unit of the package's validity, such as "CALENDAR_MONTH", "SECOND".
               type: string
+              enum:
+                - CALENDAR_MONTH
+                - SECOND
         status:
-          description: The current status of the package template, such as "ACTIVE".
+          description: This field indicates the current status of the package template, such as 'ACTIVE'.
           type: string
+          enum:
+            - ACTIVE
+            - TERMINATED
         deactivated_date:
           description: The date when the package template was deactivated, expressed as a Unix timestamp (In millisecond). It will be 0 if the template is active or has never been deactivated.
           type: integer
@@ -5868,8 +6062,12 @@ components:
           type: integer
           format: int64
         status:
-          description: The current status of the package, such as "ACTIVE", "NOT ACTIVE" or "TERMINATED".  After creation, the default status of a package is "NOT_ACTIVE". This indicates that the package is initially inactive and needs to be activated before it can be used. The method of activation is determined by the "ACTIVATION_TYPE" field in the associated package template used to create the SIM package. The package template specifies the activation method, such as "API", which indicates that the package can be activated programmatically via an API call.
+          description: The current status of the package. After creation, the default status of a package is "NOT_ACTIVE". This indicates that the package is initially inactive and needs to be activated before it can be used. The method of activation is determined by the "ACTIVATION_TYPE" field in the associated package template used to create the SIM package. The package template specifies the activation method, such as "API", which indicates that the package can be activated programmatically via an API call.
           type: string
+          enum:
+            - NOT_ACTIVE
+            - ACTIVE
+            - TERMINATED
         voice_usage_remaining:
           description: The remaining allowed amount of voice usage in the package. The value for this field is in minutes.
           type: integer
@@ -5899,6 +6097,7 @@ components:
             data_usage_allowance:
               description: The initial total allowance of data usage given to the package. The value for this field is in bytes.
               type: integer
+              format: int64
             sms_usage_allowance:
               description: The initial total allowance of SMS usage given to the package. The value for this field is in messages.
               type: integer
@@ -5913,36 +6112,49 @@ components:
                 unit:
                   description: The unit of the package's validity, such as "CALENDAR_MONTH", "SECOND".
                   type: string
+                  enum:
+                    - CALENDAR_MONTH
+                    - SECOND
             activation_time_allowance:
               description: The time duration within which the package associated with the template can be activated after its creation. The value for this field is in seconds.
               type: integer
     Wallet:
       type: object
+      required:
+        - id
+        - wallet_type
+        - owner
+        - balance
+        - overdraft
       properties:
         id:
-          description: The identifier of the wallet.
+          description: The unique wallet id.
           type: integer
         wallet_type:
-          description: The type of the wallet, such as "INVENTORY", "GROUP" or "SIM".
+          description: The type indicates which type of entity the wallet is associated with. For example, GROUP type means that it is the wallet attached to a group (group of SIMs).
           type: string
+          enum:
+            - INVENTORY
+            - GROUP
+            - SIM
         owner:
-          description: Information about the owner of the wallet.
+          description: The owner indicates the originating source of funds for a wallet's balance or overdraft. The 'wallet owner' in this context refers to the account linked to these funds. Each wallet must have one and only one owner (inventory, group or SIM).
           type: object
           properties:
             inventory:
-              description: If not null, this field indicates that the owner of the wallet is the specified inventory.
+              description: If not null, the owner is the specified inventory.
               type: integer
             group:
-              description: If not null, this field indicates that the owner of the wallet is the specified group.
+              description: If not null, the owner is the specified group.
               type: integer
             sim:
-              description: If not null, this field represents the ICCID and that the owner of the wallet is the specified SIM.
+              description: If not null, the owner is the specified SIM. The field represents the ICCID of the SIM.
               type: string
         balance:
-          description: The current balance of the wallet.
+          description: The wallet balance displays the prepaid funds that can be used for all network services, including Data, SMS, and Voice. These services incur charges that are deducted from the wallet balance. If there's an established overdraft limit, the balance could potentially drop below zero. But remember, if the balance meets the overdraft limit, all network services will pause until the balance is restored. Pricing for these network services is predetermined in the rate sheets.
           type: number
         overdraft:
-          description: The overdraft limit of the wallet.
+          description: The overdraft defines the overdraft threshold of a wallet. For example, 500 overdraft allows balance to reach -500 before service disruption. Please note that the value of the field must be 0 or greater.
           type: number
     PCR_profile:
       type: object
@@ -6005,8 +6217,8 @@ components:
     Iccid:
       type: object
       properties:
-        id:
-          description: The ICCID identifier (Integrated Circuit Card Identifier) of the SIM.
+        iccid:
+          description: The ICCID (Integrated Circuit Card Identifier) of the SIM, represented as a string.
           type: string
     Session:
       type: object
@@ -6032,14 +6244,17 @@ components:
           type: integer
           format: int64
         rat:
-          description: The Radio Access Technology (RAT) used for the data session, represented as an integer, such as "1" for UTRAN, "2" for GERAN, "3" for WAN, "4" for GAN, "5" for HSPA Evolution, "6" for EUTRAN (WB-E-UTRAN), "7" for Virtual, "8" for EUTRAN-NB-IoT, "9" for LTE-M, "10" for NR, "11".."255" for spare. For details and updates, please refer to 3GPP TS 29.274.
+          description: The Radio Access Technology (RAT) used for the data session, represented as an integer. 1 = UTRAN, 2 = GERAN, 3 = WAN, 4 = GAN, 5 = HSPA Evolution, 6 = EUTRAN (WB-E-UTRAN), 7 = Virtual, 8 = EUTRAN-NB-IoT, 9 = LTE-M, 10 = NR, 11-255 = spare. For details and updates, please refer to 3GPP TS 29.274.
           type: integer
         private_ip:
           description: The private IP address assigned to the data session, represented as a string.
           type: string
         charge_towards:
-          description: The charging mechanism for the data session, such as "PACKAGE" or "BALANCE".
+          description: The charging mechanism for the data session, such as "PACKAGE".
           type: string
+          enum:
+            - PACKAGE
+            - BALANCE
         apn:
           description: This field indicates the Access Point Name (APN) associated with the data session.
           type: string
@@ -6066,6 +6281,13 @@ components:
           description: The date when the whitelist was last modified, expressed as a Unix timestamp in milliseconds.
           type: integer
           format: int64
+        type:
+          description: The type of the whitelist. Possible values are: CLASSIC, UNIVERSAL_DATA_ONLY, UNIVERSAL_VOICE.
+          type: string
+          enum:
+            - CLASSIC
+            - UNIVERSAL_DATA_ONLY
+            - UNIVERSAL_VOICE
         parent_whitelist:
           description: The identifier of the parent whitelist, if applicable, represented as an integer. If a parent whitelist is specified, the number of available entries in the current whitelist is limited by the parent whitelist. This means that the parent whitelist defines the superset of networks available to the SIM.
           type: integer
