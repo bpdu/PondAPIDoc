@@ -5598,6 +5598,91 @@ webhooks:
               description: The 'Reference-ID' will be generated uniquely by the system and assign it to each request served by the system. It will be used for internal traceability. It will be very helpful if provided in support ticket.
               schema:
                 type: string
+  PackageDataUsageAlertEvent:
+    post:
+      tags:
+        - Webhooks
+      summary: Package Data Usage Alert Event
+      description: |
+        When the package of a SIM reaches 50 or 80 percent of its total data allowance, this webhook will be sent to the specified endpoint, providing the essential details of the associated SIM, package, and session information.
+
+        Add-on Webhook Access
+
+        This webhook belongs to our exclusive range of add-on services, designed to provide a more comprehensive API experience. To access this service, kindly reach out to your respective account manager.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - eventName
+                - eventTimestamp
+                - eventDetails
+              properties:
+                eventName:
+                  type: string
+                  description: The name of the event, which in this case is "PACKAGE_DATA_USAGE_ALERT".
+                eventTimestamp:
+                  type: integer
+                  format: int64
+                  description: The timestamp when the event occurred, expressed as a Unix timestamp in milliseconds (for example, 1689714160492).
+                eventDetails:
+                  type: object
+                  description: An object containing detailed information about the event.
+                  required:
+                    - diameterSession
+                    - activeSession
+                    - sim
+                    - package
+                  properties:
+                    diameterSession:
+                      type: string
+                      description: "A session identifier related to the event (masked for security), such as \"*********;201424743;955475456;373834603313\"."
+                    activeSession:
+                      type: string
+                      description: "The identifier of an active session related to the event, for example, \"905599036\"."
+                    sim:
+                      type: object
+                      description: An object containing information about the SIM associated with the event.
+                      required:
+                        - iccid
+                        - sponsorImsi
+                        - customerImsi
+                      properties:
+                        iccid:
+                          type: string
+                          description: The ICCID of the SIM.
+                        sponsorImsi:
+                          type: string
+                          description: "The IMSI of the sponsor related to the SIM, for example, \"732123201070005\"."
+                        customerImsi:
+                          type: string
+                          description: "The mapped IMSI (Internally translated) of the SIM, for example, \"312300001012346\"."
+                    package:
+                      type: object
+                      description: An object containing information about the package associated with the event.
+                      required:
+                        - id
+                        - packageUsedBytes
+                        - packageTotalBytes
+                      properties:
+                        id:
+                          type: string
+                          description: "The unique identifier of the package, for example, \"ea869187-00ae-4042-946f-d1eef5249711\"."
+                        packageUsedBytes:
+                          type: integer
+                          format: int64
+                          description: "The amount of data usage in bytes that the package has consumed so far, for example, 1717986919."
+                        packageTotalBytes:
+                          type: integer
+                          format: int64
+                          description: "The total data allowance of the package in bytes, for example, 2147483648."
+                        percentageUsed:
+                          type: integer
+                          description: The percentage of data allowance used by the package. This field will be included in the event only when the package reaches 50 or 80 percent of its total data allowance. For example, if the package has used 80% of its total data allowance, this field will have a value of 80.
+      responses:
+        "200":
+          description: OK. The client endpoint must respond with an HTTP status code of 200 OK to acknowledge the successful delivery of the event. This response code indicates that the client has received and processed the webhook payload successfully.
 components:
   securitySchemes:
     bearer:
