@@ -5769,6 +5769,74 @@ webhooks:
       responses:
         "200":
           description: OK. The client endpoint must respond with an HTTP status code of 200 OK to acknowledge the successful delivery of the event. This response code indicates that the client has received and processed the webhook payload successfully.
+  IMEIChangeEvent:
+    post:
+      tags:
+        - Webhooks
+      summary: IMEI Change Event
+      description: |
+        This event indicates that a new IMEI value is detected during the most recent location update event of a SIM (comparing to the IMEI value used in the previous location update).
+
+        Since the IMEI field is optional during the data exchange with the VPLMN, this event may not capture all IMEI changes.
+
+        Add-on Webhook Access
+
+        This webhook belongs to our exclusive range of add-on services, designed to provide a more comprehensive API experience. To access this service, kindly reach out to your respective account manager.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - eventName
+                - eventTimestamp
+                - eventDetails
+              properties:
+                eventName:
+                  type: string
+                  description: The name of the event. In this case, it will be "DEVICE_IMEI_CHANGE", representing the IMEI change event.
+                eventTimestamp:
+                  type: integer
+                  format: int64
+                  description: The timestamp of the event in Unix epoch format (milliseconds).
+                eventDetails:
+                  type: object
+                  description: This object contains detailed information about the IMEI change event.
+                  required:
+                    - distributor
+                    - sim
+                    - imei
+                  properties:
+                    distributor:
+                      type: object
+                      description: Information about the distributor associated with the SIM.
+                      properties:
+                        id:
+                          type: integer
+                        name:
+                          type: string
+                    sim:
+                      type: object
+                      description: Information about the SIM that experienced the IMEI change.
+                      properties:
+                        iccid:
+                          type: string
+                    imei:
+                      type: object
+                      description: An object containing the previous and current IMEI values.
+                      required:
+                        - previousValue
+                        - currentValue
+                      properties:
+                        previousValue:
+                          type: string
+                          description: The previous IMEI value reported for the device.
+                        currentValue:
+                          type: string
+                          description: The current IMEI value reported for the device after the change.
+      responses:
+        "200":
+          description: OK. The client endpoint must respond with an HTTP status code of 200 OK to acknowledge the successful delivery of the event. This response code indicates that the client has received and processed the webhook payload successfully.
 components:
   securitySchemes:
     bearer:
