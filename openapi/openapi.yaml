@@ -11,13 +11,99 @@ info:
   license:
     name: MIT
     url: https://opensource.org/license/mit/
+x-tagGroups:
+  - name: CORE
+    tags:
+      - Companies
+      - Countries
+  - name: INVENTORY
+    tags:
+      - Inventories
+      - Groups
+      - SIM Registries
+      - SIM Transfers
+      - MSISDN
+  - name: ESIM RSP
+    tags:
+      - eUICC Profiles
+  - name: POLICY AND CHARGING RULES (PCR)
+    tags:
+      - Package Templates
+      - Packages
+      - Route Policies
+      - SIM PCR Profiles
+      - Traffic Policies
+      - Wallets
+  - name: SESSION MANAGEMENT
+    tags:
+      - Data Sessions
+  - name: NETWORK ACCESS
+    tags:
+      - Whitelists
+      - Whitelist Assigned SIMs
+      - Location Updates
+  - name: A2P SMS
+    tags:
+      - A2P SMS
+  - name: WEBHOOKS
+    tags:
+      - eSIM RSP
+      - SIM Transfer
+      - Packages
+      - Device Statuses
+      - A2P SMS
 servers:
   - url: https://api.pondmobile.com/v2.1
+tags:
+  - name: Companies
+    description: Endpoints for managing sub-companies
+  - name: Countries
+    description: Endpoints for retrieving country information
+  - name: Inventories
+    description: Endpoints for managing inventories
+  - name: Groups
+    description: Endpoints for managing groups
+  - name: SIM Registries
+    description: Endpoints for managing SIM cards
+  - name: SIM Transfers
+    description: Endpoints for SIM transfer operations
+  - name: MSISDN
+    description: Endpoints for MSISDN (phone number) management
+  - name: eUICC Profiles
+    description: Endpoints for eSIM profile management
+  - name: Package Templates
+    description: Endpoints for package template management
+  - name: Packages
+    description: Endpoints for package management
+  - name: Route Policies
+    description: Endpoints for route policy management
+  - name: SIM PCR Profiles
+    description: Endpoints for SIM PCR profile management
+  - name: Traffic Policies
+    description: Endpoints for traffic policy management
+  - name: Wallets
+    description: Endpoints for wallet management
+  - name: Data Sessions
+    description: Endpoints for data session management
+  - name: Whitelists
+    description: Endpoints for managing whitelists
+  - name: Whitelist Assigned SIMs
+    description: Endpoints for managing SIM assignments to whitelists
+  - name: Location Updates
+    description: Endpoints for managing location updates
+  - name: A2P SMS
+    description: Endpoints for A2P SMS operations
+  - name: eSIM RSP
+    description: Webhooks for eSIM RSP events
+  - name: SIM Transfer
+    description: Webhooks for SIM transfer events
+  - name: Device Statuses
+    description: Webhooks for device status events
 paths:
   /core/countries:
     get:
       tags:
-        - Core
+        - Countries
       summary: Returns a list of countries.
       operationId: getCountries
       description: The endpoint returns a list of countries and their ID and names.
@@ -134,7 +220,7 @@ paths:
   /core/companies:
     get:
       tags:
-        - Core
+        - Companies
       summary: Returns a list of sub-companies.
       operationId: getCompanies
       description: The endpoint returns a list of companies under your company. This endpoint is available only if the sub-company module is enabled.
@@ -250,7 +336,7 @@ paths:
                     type: string
     post:
       tags:
-        - Core
+        - Companies
       summary: Creates a new sub-company.
       operationId: addCompany
       description: The endpoint creates a company under your company. This endpoint is available only if the sub-company module is enabled.
@@ -353,7 +439,7 @@ paths:
   /core/companies/{sub_company_id}:
     get:
       tags:
-        - Core
+        - Companies
       summary: Retrieve a sub-company.
       operationId: getCompanyById
       description: The endpoint returns a company under your company. This endpoint is available only if the sub-company module is enabled.
@@ -446,7 +532,7 @@ paths:
                     type: string
     put:
       tags:
-        - Core
+        - Companies
       summary: Modify a sub-company.
       operationId: UpdateCompany
       description: The endpoint modifies certain attributes of the specified sub-company. This endpoint is available only if the sub-company module is enabled.
@@ -551,7 +637,7 @@ paths:
   /inventory/inventories:
     get:
       tags:
-        - Inventory
+        - Inventories
       summary: List inventories.
       operationId: getInventories
       description: The endpoint returns all inventories under your company (including inventories under sub-company if the sub-company feature is enabled), or a specified sub-company. An inventory represents a collection of SIMs and the available pre-defined configurations that can be attached to them.
@@ -672,7 +758,7 @@ paths:
                     type: string
     post:
       tags:
-        - Inventory
+        - Inventories
       summary: Create a new inventory.
       operationId: addInventory
       description: The endpoint allows the creation of an inventory under a sub-company's account. Only companies that enable the sub-company management feature can create inventories for their sub-companies. An inventory represents a collection of SIMs and the available pre-defined configurations that can be attached to them.
@@ -784,7 +870,7 @@ paths:
   /inventory/inventories/{inventory_id}:
     get:
       tags:
-        - Inventory
+        - Inventories
       summary: Retrieve an inventory.
       operationId: getInventoryById
       description: The endpoint retrieves the details of a specific inventory. An inventory represents a collection of SIMs and the available pre-defined configurations that can be attached to them.
@@ -877,7 +963,7 @@ paths:
                     type: string
     put:
       tags:
-        - Inventory
+        - Inventories
       summary: Modify an inventory.
       operationId: UpdateInventory
       description: The endpoint modifies certain attributes a the specified inventory. This feature is only available if the sub-company module is enabled. Please contact support for more information.
@@ -976,7 +1062,7 @@ paths:
   /inventory/groups:
     get:
       tags:
-        - Inventory
+        - Groups
       summary: List groups.
       operationId: getGroups
       description: The endpoint retrieves a list of groups. A group represents a collection of SIM cards that share common attributes or belong to a specific category. Group can be used to achieve pooled billing/balance.
@@ -1097,7 +1183,7 @@ paths:
                     type: string
     post:
       tags:
-        - Inventory
+        - Groups
       summary: Create a new group.
       operationId: createGroup
       description: The endpoint allows the creation of the group in the inventory.
@@ -1207,7 +1293,7 @@ paths:
   /inventory/groups/{group_id}:
     get:
       tags:
-        - Inventory
+        - Groups
       summary: Retrieve a group.
       operationId: getGroupById
       description: The endpoint returns the detailed information of the specified group.
@@ -1300,7 +1386,7 @@ paths:
                     type: string
     put:
       tags:
-        - Inventory
+        - Groups
       summary: Modify a group.
       operationId: updateGroup
       description: The endpoint modifies some certain attributes of the specified group.
@@ -1398,7 +1484,7 @@ paths:
                     type: string
     delete:
       tags:
-        - Inventory
+        - Groups
       summary: Delete a group.
       operationId: deleteGroupById
       description: The endpoint deletes the specified group.
@@ -1492,7 +1578,7 @@ paths:
   /inventory/sim-registries:
     get:
       tags:
-        - Inventory
+        - SIM Registries
       summary: List SIMs.
       operationId: getSIMRegistries
       description: The endpoint lists all the SIMs in your company. Can be filtered by an inventory or a group if specified.
@@ -1624,7 +1710,7 @@ paths:
   /inventory/sim-registries/{iccid}:
     get:
       tags:
-        - Inventory
+        - SIM Registries
       summary: Retrieve a SIM.
       operationId: getSIMRegistryById
       description: The endpoint returns the detailed information of the specified SIM.
@@ -1717,7 +1803,7 @@ paths:
                     type: string
     put:
       tags:
-        - Inventory
+        - SIM Registries
       summary: Modify a SIM.
       operationId: updateSIMRegistry
       description: The endpoint modifies certain attributes of the specified SIM.
@@ -1815,7 +1901,7 @@ paths:
                     type: string
     delete:
       tags:
-        - Inventory
+        - SIM Registries
       summary: Purge a SIM.
       operationId: deleteSIMRegistry
       description: The endpoint purges the SIM. After purging, the SIM services would be completely terminated. The operation can not be reverted.
@@ -1905,7 +1991,7 @@ paths:
   /inventory/sim-transfers:
     get:
       tags:
-        - Inventory
+        - SIM Transfers
       summary: List SIM transfer requests.
       operationId: getSIMTransfers
       description: The endpoint allows the transfer of SIM cards from a parent inventory to another inventory of a sub-company. It is only available to companies that have the sub-company module enabled. The reverse operation is not supported.
@@ -2021,7 +2107,7 @@ paths:
                     type: string
     post:
       tags:
-        - Inventory
+        - SIM Transfers
       summary: Create a SIM transfer request.
       operationId: createSIMTransfer
       description: The endpoint enables the transfer of SIM cards from one of the company's current inventories to a sub-company's inventory. It is only available to companies that have the sub-company module enabled. The transferred SIM cards can be assigned to a specific whitelist or group in the destination inventory, and the wallet mode for the transferred SIM cards can be specified.
@@ -2157,7 +2243,7 @@ paths:
   /inventory/sim-transfers/{sim_transfer_id}:
     get:
       tags:
-        - Inventory
+        - SIM Transfers
       summary: Retrieve a SIM transfer info.
       operationId: getSIMTransferById
       description: The endpoint allows you to retrieve detailed information about a specific SIM transfer request. Transfer requests are initiated when you want to transfer SIM cards from one inventory to another, strictly from parent to sub-company inventories. Please note that once a transfer request is completed, the operation is not reversible, and the transferred SIMs cannot be moved back to their original inventory.
@@ -2251,7 +2337,7 @@ paths:
   /inventory/sim-transfers/{sim_transfer_id}/report:
     get:
       tags:
-        - Inventory
+        - SIM Transfers
       summary: Retrieve a SIM transfer request report.
       operationId: getSIMTransferReportBySIMTransferId
       description: The endpoint allows you to retrieve a comprehensive report containing detailed status information for each individual SIM transfer request.
@@ -2346,7 +2432,7 @@ paths:
   /inventory/msisdns:
     get:
       tags:
-        - Inventory
+        - MSISDN
       summary: List MSISDNs.
       operationId: list-msisdns
       description: The endpoint list all active MSISDNs in your company. Can be filtered by inventory or assigned SIM etc.
@@ -2492,7 +2578,7 @@ paths:
   /inventory/msisdns/{msisdn}:
     get:
       tags:
-        - Inventory
+        - MSISDN
       summary: Retrieve a MSISDN.
       operationId: retrieve-msisdn
       description: This endpoint retrieve the details of the specified MSISDN.
@@ -2586,7 +2672,7 @@ paths:
   /inventory/msisdns/{msisdn}/assignments:
     get:
       tags:
-        - Inventory
+        - MSISDN
       summary: Retrieve MSISDN assignments.
       operationId: retrieve-msisdn-assignments
       description: This endpoint retrieve assignments of a MSISDN.
@@ -2708,7 +2794,7 @@ paths:
                     type: string
     post:
       tags:
-        - Inventory
+        - MSISDN
       summary: Assign a MSISDN to a SIM.
       operationId: create-msisdn-assignment
       description: This endpoint assigns a MSISDN to a SIM if the MSISDN is not already assigned to any SIM.
@@ -2813,7 +2899,7 @@ paths:
                     type: string
     delete:
       tags:
-        - Inventory
+        - MSISDN
       summary: Remove assignment of a MSISDN.
       operationId: remove-msisdn-assignment
       description: Remove current assignment of a MSISDN. If a MSISDN is already set as a CLI, it will set next recent assigned MSISDN as cli if present any.
@@ -2903,7 +2989,7 @@ paths:
   /inventory/msisdns/{msisdn}/cli:
     put:
       tags:
-        - Inventory
+        - MSISDN
       summary: Set a MSISDN as cli.
       operationId: set-cli-msisdn-assignment
       description: Set a MSISDN as cli if the MSISDN is already assigned to a sim.
@@ -3016,7 +3102,7 @@ paths:
   /esim-rsp/euicc-profiles/{iccid}:
     get:
       tags:
-        - eSIM RSP
+        - eUICC Profiles
       summary: Retrieve an EUICC profile.
       operationId: getEUICCProfileById
       description: The endpoint returns EUICC (eSIM) profile information of the specified ICCID.
@@ -3204,7 +3290,7 @@ paths:
   /pcr/package-templates:
     get:
       tags:
-        - Policy and Charging Rules (PCR)
+        - Package Templates
       summary: List package templates.
       operationId: getPackageTemplates
       description: The endpoint returns a list of all 'Package Templates' currently available. These templates are blueprints for creating SIM data, voice, or SMS plans, known as 'Packages.' The returned list provides an easy overview of all the template options, including their service allowances, durations, sales and activation windows, applied traffic policies, names, and activation methods. You can use these templates as a starting point for generating one or more packages for a SIM via other endpoints.
@@ -3325,7 +3411,7 @@ paths:
                     type: string
     post:
       tags:
-        - Policy and Charging Rules (PCR)
+        - Package Templates
       summary: Create a new package template.
       operationId: createPackageTemplate
       description: The endpoint allows you to create a package template. A package template is a blueprint for creating SIM data, voice, or SMS plans, also known as packages. When creating a template, you can define several parameters including the service allowance, duration, sales and activation window, traffic policy to be applied, the template name, and the activation method. Once a template is established, you can use it to generate one or more packages for a SIM via other endpoints. The network services available to the SIM are defined by these packages.
@@ -3484,7 +3570,7 @@ paths:
   /pcr/packages/{package_id}:
     get:
       tags:
-        - Policy and Charging Rules (PCR)
+        - Package Templates
       summary: Retrieve a package.
       operationId: getPackageById
       description: The endpoint retrieves the details of a specific package.
@@ -3679,7 +3765,7 @@ paths:
   /pcr/packages:
     get:
       tags:
-        - Policy and Charging Rules (PCR)
+        - Packages
       summary: List packages.
       operationId: getPackages
       description: The endpoint lists all packages under your inventories or sub-inventories. Some sort of filter criteria can be applied in the query parameters.
@@ -3815,7 +3901,7 @@ paths:
                     type: string
     post:
       tags:
-        - Policy and Charging Rules (PCR)
+        - Packages
       summary: Create a new package.
       operationId: createPackage
       description: The endpoint enables you to create a new package for a specific SIM. Packages represent service plans with predefined allowances for data, voice, and SMS usage. To create a package, you must specify the package template, which defines the preset allowances and constraints for the package.
@@ -3918,7 +4004,7 @@ paths:
   /pcr/route-policies:
     get:
       tags:
-        - Policy and Charging Rules (PCR)
+        - Route Policies
       summary: List route policies.
       operationId: getroutepolicies
       description: This endpoint provides a list of all currently available route policies of an inventory. Each route policy is a unique set of rules determine how the signal is handled and terminated on the network layer. Use this endpoint to view and select the appropriate policy for your SIM(s).
@@ -4041,7 +4127,7 @@ paths:
   /pcr/sim-pcr-profiles/{iccid}:
     get:
       tags:
-        - Policy and Charging Rules (PCR)
+        - Route Policies
       summary: Retrieve a SIM PCR Profile.
       operationId: getSIMPCRProfileByIccid
       description: The endpoint allows you to retrieve the Policy and Charging Rules (PCR) profile associated with a specific SIM card. The PCR profile contains various subscriber configurations in the Policy and Charging Rules Function (PCRF) core network node. These configurations define how the SIM card's data, voice, and SMS usage are handled within the network.
@@ -4134,7 +4220,7 @@ paths:
                     type: string
     put:
       tags:
-        - Policy and Charging Rules (PCR)
+        - Route Policies
       summary: Modify a SIM PCR profile.
       operationId: updateSIMPCRProfile
       description: The endpoint allows you to modify the Policy and Charging Rules (PCR) profile associated with a specific SIM card. The PCR profile contains various subscriber configurations in the Policy and Charging Rules Function (PCRF) core network node. These configurations define how the SIM card's data, voice, and SMS usage are handled within the network.
@@ -4260,7 +4346,7 @@ paths:
   /pcr/traffic-policies:
     get:
       tags:
-        - Policy and Charging Rules (PCR)
+        - SIM PCR Profiles
       summary: List of traffic policies.
       operationId: getTrafficPolicies
       description: The endpoint provides a list of all currently available traffic policies. Each traffic policy is a unique set of rules managing data throttling for SIM cards. Use this endpoint to view and select the appropriate policy for your network service needs.
@@ -4377,7 +4463,7 @@ paths:
   /pcr/traffic-policies/{traffic_policy_id}:
     get:
       tags:
-        - Policy and Charging Rules (PCR)
+        - SIM PCR Profiles
       summary: Retrieve a traffic policy.
       operationId: getTrafficPolicyById
       description: |
@@ -4474,7 +4560,7 @@ paths:
   /pcr/wallets/{wallet_id}:
     get:
       tags:
-        - Policy and Charging Rules (PCR)
+        - Wallets
       summary: Retrieve a wallet.
       operationId: getWalletById
       description: |
@@ -4570,7 +4656,7 @@ paths:
                     type: string
     patch:
       tags:
-        - Policy and Charging Rules (PCR)
+        - Wallets
       summary: Modify a wallet.
       operationId: updateWallet
       description: This endpoint allows users to update their wallet information. A successful response from the PATCH request indicates that the request has been successfully received and processed. However, please note that the update to the wallet balance may take some time to reflect in the system. Users are advised to check back later for the most current balance information.
@@ -4680,7 +4766,7 @@ paths:
   /session-management/open-data-sessions:
     get:
       tags:
-        - Session Management
+        - Data Sessions
       summary: Retrieve SIM open data sessions.
       operationId: getOpenDataSessions
       description: |
@@ -4784,7 +4870,7 @@ paths:
   /network-access/whitelists:
     get:
       tags:
-        - Network access
+        - Whitelists
       summary: List whitelists.
       operationId: getWhitelists
       description: List all whitelist(s) which meet the specified criteria. The endpoint returns all applicable whitelists found under the speicifed distributor. The response is paginated.
@@ -4906,7 +4992,7 @@ paths:
   /network-access/whitelists/{whitelist_id}/assigned-sims:
     get:
       tags:
-        - Network access
+        - Whitelist Assigned SIMs
       summary: List assigned SIMs under a whitelist.
       operationId: getSIMByWhitelistId
       description: Lists all assigned SIMs under a whitelist. The response is paginated.
@@ -5028,7 +5114,7 @@ paths:
                     type: string
     post:
       tags:
-        - Network access
+        - Whitelist Assigned SIMs
       summary: Assigns SIMs to the whitelist.
       operationId: updateWhitelist
       description: |
@@ -5139,7 +5225,7 @@ paths:
   /network-access/cancel-lu-requests:
     post:
       tags:
-        - Network access
+        - Location Updates
       summary: Cancel location updates.
       operationId: cancelLURequests
       description: The endpoint sends a cancel location updates request to the core network, effectively removing a subscriber from the network. After the request is successfully processed by the core network, the device will cease its attempts to communicate with the network for a period of time, which is determined by the device's behavior. By using this endpoint, you can initiate the process of removing a subscriber's location updates from the network, ensuring that the device is no longer connected or actively communicating. Please note that the device may stop trying to communicate with the network for a period of time depending on the device behavior.
@@ -5452,7 +5538,7 @@ webhooks:
   ESIMStatusChangeEvent:
     post:
       tags:
-        - Webhooks
+        - eSIM RSP
       summary: ESIM Status Change Event
       description: |
         This webhook event is also called the "HandleDownloadProgressInfo" function in the GSMA RSP Technical Specs. The function SHALL be used by the SM-DP+ to notify the Operator of the progress of a pending Profile download order request. This function MAY be used at several points of the Profile Download and Installation procedure. It is assumed that the ICCID and the EID are enough to identify the pending Profile download order request at the SM-DP+ and the Operator sides. It is also assumed that the ICCID is enough for the SM-DP+ to retrieve the Operator to notify. For more technical details, please refer to the GSM Association Official Document SGP.22 – RSP Technical Specification v2.4 (SGP.22-2.4).
@@ -5548,7 +5634,7 @@ webhooks:
   SIMTransferCallback:
     post:
       tags:
-        - Webhooks
+        - SIM Transfer
       summary: SIM Transfer Callback
       description: This endpoint receives the callback notification once the transfer request is processed.
       requestBody:
@@ -5601,7 +5687,7 @@ webhooks:
   PackageDataUsageAlertEvent:
     post:
       tags:
-        - Webhooks
+        - Packages
       summary: Package Data Usage Alert Event
       description: |
         When the package of a SIM reaches 50 or 80 percent of its total data allowance, this webhook will be sent to the specified endpoint, providing the essential details of the associated SIM, package, and session information.
@@ -5686,7 +5772,7 @@ webhooks:
   PackageStatusChangeEvent:
     post:
       tags:
-        - Webhooks
+        - Packages
       summary: Package Status Change Event
       description: |
         The Package Status Change event signifies a modification in the status of a package. The event body includes comprehensive information such as package details, package template, owner SIM, and owner inventory.
@@ -5772,7 +5858,7 @@ webhooks:
   IMEIChangeEvent:
     post:
       tags:
-        - Webhooks
+        - Device Statuses
       summary: IMEI Change Event
       description: |
         This event indicates that a new IMEI value is detected during the most recent location update event of a SIM (comparing to the IMEI value used in the previous location update).
@@ -5840,7 +5926,7 @@ webhooks:
   A2PSMSMOReceivedEvent:
     post:
       tags:
-        - Webhooks
+        - A2P SMS
       summary: A2P SMS (MO) Received Event
       description: The specified endpoint receives notifications for Mobile Originated (MO) A2P SMS events. When a device sends an SMS to a specified short code, this webhook is triggered to deliver the event details to your system. The client endpoint must respond with an HTTP status code of 200 OK to confirm the successful receipt and processing of the webhook payload.
       requestBody:
