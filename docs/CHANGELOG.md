@@ -2,6 +2,8 @@
 
 ## [Release] API Documentation Structure Enhancement
 
+*Added* - April 3, 2026 by Pond Mobile
+
 ### Two-Level Subsection Navigation
 - Implemented two-level navigation structure using x-tagGroups extension
 - Main sections now serve as category headers (CORE, INVENTORY, ESIM RSP, etc.)
@@ -19,7 +21,7 @@
 
 ## [Release] Universal eSIM Support & Webhooks Integration
 
-*Added* - 3 days ago by Pond Mobile
+*Added* - March 31, 2026 by Pond Mobile
 
 ### New Webhooks (6 endpoints)
 - Introduced webhook notifications system for real-time event monitoring:
