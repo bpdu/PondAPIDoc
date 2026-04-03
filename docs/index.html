@@ -16,20 +16,48 @@
         margin: 0;
         padding: 0;
       }
+      .header-bar {
+        background: #1a202c;
+        padding: 15px 30px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 15px;
+      }
+      .header-bar a {
+        color: #fff;
+        text-decoration: none;
+        font-size: 14px;
+        font-weight: 500;
+        padding: 8px 16px;
+        border: 1px solid rgba(255,255,255,0.2);
+        border-radius: 4px;
+        transition: all 0.3s ease;
+      }
+      .header-bar a:hover {
+        background: rgba(255,255,255,0.1);
+        border-color: rgba(255,255,255,0.4);
+      }
     </style>
   </head>
   <body>
+  	<div class="header-bar">
+  		<div>
+  			<a href="dist.json" download>Download OpenAPI</a>
+  			<a href="CHANGELOG.md">View Changelog</a>
+  		</div>
+  	</div>
   	<div id="redoc-container"></div>
   	<script src="https://cdn.jsdelivr.net/npm/redoc@next/bundles/redoc.standalone.js"></script>
-	<script src="https://cdn.jsdelivr.net/npm/redoc-try-it-out/dist/try-it-out.min.js"></script>  	
-	<script>
-		RedocTryItOut.init(
+		<script src="https://cdn.jsdelivr.net/npm/redoc-try-it-out/dist/try-it-out.min.js"></script>
+		<script>
+			RedocTryItOut.init(
         		"dist.json",
-        		{ title: "Pond Mobile API reference" }, 
+        		{ title: "Pond Mobile API reference" },
         		document.getElementById("redoc_container")
-		)    		
+		)
   	</script>
 </body>
 </html>
-
 
