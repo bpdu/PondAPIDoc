@@ -54,8 +54,11 @@
 		<script>
 			RedocTryItOut.init(
         		"dist.json",
-        		{ title: "Pond Mobile API reference" },
-        		document.getElementById("redoc_container")
+        		{
+        			title: "Pond Mobile API reference",
+        			tryItOutEnabled: true
+        		},
+        		document.getElementById("redoc-container")
 		)
   	</script>
 </body>
