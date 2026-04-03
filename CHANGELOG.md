@@ -1,5 +1,22 @@
 # Changelog
 
+## [Release] API Documentation Structure Enhancement
+
+### Two-Level Subsection Navigation
+- Implemented two-level navigation structure using x-tagGroups extension
+- Main sections now serve as category headers (CORE, INVENTORY, ESIM RSP, etc.)
+- Subsections provide logical grouping of related endpoints:
+  - **CORE**: Companies, Countries
+  - **INVENTORY**: Inventories, Groups, SIM Registries, SIM Transfers, MSISDN
+  - **ESIM RSP**: eUICC Profiles
+  - **POLICY AND CHARGING RULES (PCR)**: Package Templates, Packages, Route Policies, SIM PCR Profiles, Traffic Policies, Wallets
+  - **SESSION MANAGEMENT**: Data Sessions
+  - **NETWORK ACCESS**: Whitelists, Whitelist Assigned SIMs, Location Updates
+  - **A2P SMS**: A2P SMS operations
+  - **WEBHOOKS**: eSIM RSP, SIM Transfer, Packages, Device Statuses, A2P SMS
+- Improved navigation and user experience matching industry-standard API documentation layout
+- Added tag descriptions for all subsections
+
 ## [Release] Universal eSIM Support & Webhooks Integration
 
 *Added* - 3 days ago by Pond Mobile
