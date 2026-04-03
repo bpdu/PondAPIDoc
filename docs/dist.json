@@ -4479,7 +4479,7 @@ paths:
       description: |
         To access specific wallet information.
 
-        For Cronus Cloud Network (CCN) customers, a wallet is automatically generated and linked whenever an Inventory, Group, or SIM entity is created. This entity (inventory, group, or SIM) is considered the 'owner' of the wallet. The 'wallet_type' parameter also specifies the type of entity to which the wallet is connected.
+        For supported accounts, a wallet is automatically generated and linked whenever an Inventory, Group, or SIM entity is created. This entity (inventory, group, or SIM) is considered the 'owner' of the wallet. The 'wallet_type' parameter also specifies the type of entity to which the wallet is connected. Check with your account manager for details.
       parameters:
         - name: wallet_id
           in: path
@@ -5979,7 +5979,7 @@ components:
           type: integer
           format: int64
         wallet:
-          description: The automatically created and attached wallet for the inventory, which represents the account balance of the company for the inventory. This field is only applicable to Cronus Cloud Network (CCN) customers. The wallet serves as a financial account associated with the inventory, and it tracks the balance of funds available for use by the company. All activities that generate charges, such as SIM usage and services, will count towards this wallet. The wallet balance indicates the available funds that can be used to cover the charges incurred by the company's inventory.
+          description: The automatically created and attached wallet for the inventory, which represents the account balance of the company for the inventory. This field is only applicable to supported accounts. The wallet serves as a financial account associated with the inventory, and it tracks the balance of funds available for use by the company. All activities that generate charges, such as SIM usage and services, will count towards this wallet. The wallet balance indicates the available funds that can be used to cover the charges incurred by the company's inventory. Check with your account manager for details.
           type: integer
         whitelist:
           description: When an inventory is generated using a template, it automatically applies a network access configuration. This configuration establishes an initial whitelist that can only be modified by the creator. Admins of the Lv3 accounts are limited to viewing the whitelist or assigning it to a SIM within the corresponding inventory. If available, the whitelist ID is returned in this field.
