@@ -1117,7 +1117,7 @@ paths:
                   description: If provided, the group is going to be created and automatically activated based on the specification of the pre-defined template. To acquire a template ID, please speak with your account manager.
                   type: integer
                 type:
-                  description: The type of the group. Possible values are: CLASSIC, UNIVERSAL_DATA_ONLY, UNIVERSAL_VOICE.
+                  description: "The type of the group. Possible values are: CLASSIC, UNIVERSAL_DATA_ONLY, UNIVERSAL_VOICE."
                   type: string
                   enum:
                     - CLASSIC
@@ -4380,9 +4380,10 @@ paths:
         - Policy and Charging Rules (PCR)
       summary: Retrieve a traffic policy.
       operationId: getTrafficPolicyById
-      description: The endpoint retrieves a specific traffic policy. A traffic policy is a rule that dictates the throttling of data speed for SIM cards. Depending on the policy settings, it can limit or enhance the data transmission rate for a particular SIM card.
+      description: |
+        The endpoint retrieves a specific traffic policy. A traffic policy is a rule that dictates the throttling of data speed for SIM cards. Depending on the policy settings, it can limit or enhance the data transmission rate for a particular SIM card.
 
-      If you require a new traffic policy definition, please get in touch with your account manager.
+        If you require a new traffic policy definition, please get in touch with your account manager.
       parameters:
         - name: traffic_policy_id
           in: path
@@ -4476,9 +4477,10 @@ paths:
         - Policy and Charging Rules (PCR)
       summary: Retrieve a wallet.
       operationId: getWalletById
-      description: To access specific wallet information.
+      description: |
+        To access specific wallet information.
 
-      For Cronus Cloud Network (CCN) customers, a wallet is automatically generated and linked whenever an Inventory, Group, or SIM entity is created. This entity (inventory, group, or SIM) is considered the 'owner' of the wallet. The 'wallet_type' parameter also specifies the type of entity to which the wallet is connected.
+        For Cronus Cloud Network (CCN) customers, a wallet is automatically generated and linked whenever an Inventory, Group, or SIM entity is created. This entity (inventory, group, or SIM) is considered the 'owner' of the wallet. The 'wallet_type' parameter also specifies the type of entity to which the wallet is connected.
       parameters:
         - name: wallet_id
           in: path
@@ -4681,11 +4683,12 @@ paths:
         - Session Management
       summary: Retrieve SIM open data sessions.
       operationId: getOpenDataSessions
-      description: This endpoint allows you to retrieve information about the currently open data sessions for a specific SIM card. Open data sessions represent active connections where the SIM card is actively using data services.
+      description: |
+        This endpoint allows you to retrieve information about the currently open data sessions for a specific SIM card. Open data sessions represent active connections where the SIM card is actively using data services.
 
-      **Add-on API Endpoint Access**
+        Add-on API Endpoint Access
 
-      This endpoint belongs to our exclusive range of add-on services, designed to provide a more comprehensive API experience. To access this service, kindly reach out to your respective account manager.
+        This endpoint belongs to our exclusive range of add-on services, designed to provide a more comprehensive API experience. To access this service, kindly reach out to your respective account manager.
       parameters:
         - name: iccid
           in: query
@@ -5028,16 +5031,17 @@ paths:
         - Network access
       summary: Assigns SIMs to the whitelist.
       operationId: updateWhitelist
-      description: This API assigns one or more SIMs to the whitelist.
+      description: |
+        This API assigns one or more SIMs to the whitelist.
 
-      On success, the request will immediately update the database entry so that future registration of connection will have the new whitelist applied.
+        On success, the request will immediately update the database entry so that future registration of connection will have the new whitelist applied.
 
-      If the request is sent during a live connection of the device (SIM):
-      * If the new whitelist blocks the currently registered network, the data connection would drop during the subsequent quota request on the PGW side
-      * The current tower connection is kept alive till the next location update happens. For example, on a mobile handset, the signal bars would remain till the reboot
-      * Cancel location request can immediately remove the device from the network, including the tower connection
+        If the request is sent during a live connection of the device (SIM):
+        - If the new whitelist blocks the currently registered network, the data connection would drop during the subsequent quota request on the PGW side
+        - The current tower connection is kept alive till the next location update happens. For example, on a mobile handset, the signal bars would remain till the reboot
+        - Cancel location request can immediately remove the device from the network, including the tower connection
 
-      If the device is offline at the time of the request, reconnection is controlled by the device logic (this API does not control the reconnection logic).
+        If the device is offline at the time of the request, reconnection is controlled by the device logic (this API does not control the reconnection logic).
       requestBody:
         content:
           application/json:
@@ -5227,11 +5231,12 @@ paths:
         - A2P SMS
       summary: Send SMS.
       operationId: sendSMS
-      description: Send a SMS request via API to the subscriber. MSISDN is not required for the subscriber to receive the SMS.
+      description: |
+        Send a SMS request via API to the subscriber. MSISDN is not required for the subscriber to receive the SMS.
 
-      **Add-on API Endpoint Access**
+        Add-on API Endpoint Access
 
-      This endpoint belongs to our exclusive range of add-on services, designed to provide a more comprehensive API experience. To access this service, kindly reach out to your respective account manager.
+        This endpoint belongs to our exclusive range of add-on services, designed to provide a more comprehensive API experience. To access this service, kindly reach out to your respective account manager.
       requestBody:
         content:
           application/json:
@@ -5337,14 +5342,19 @@ paths:
     post:
       tags:
         - A2P SMS
-      summary: Send SMS.
-      operationId: sendSMS
-      description: The endpoint sends a SMS request via API to the subscriber. MSISDN is not required for the subscriber to receive the SMS.
+      summary: Send SMS as binary.
+      operationId: sendBinarySMS
+      description: Send a SMS request via API to the subscriber. MSISDN is not required for the subscriber to receive the SMS.
       requestBody:
         content:
           application/json:
             schema:
               type: object
+              required:
+                - sim
+                - from
+                - validity_period
+                - message
               properties:
                 sim:
                   description: The ICCID of the receiving subscriber.
@@ -5353,11 +5363,8 @@ paths:
                   description: The short code or the MSISDN displayed for the SMS.
                   type: string
                 message:
-                  description: The body message of the SMS as a list of integers (binary).
-                  type: array
-                  items:
-                    type: integer
-                    format: int32
+                  description: The body message of the SMS as a HEX string.
+                  type: string
                 validity_period:
                   description: The validity period of the SMS. The unit is in minute. The value should be between 1 and 10080 (7 days) inclusively.
                   type: integer
@@ -5385,14 +5392,6 @@ paths:
               description: The 'Reference-ID' will be generated uniquely by the system and assign it to each request served by the system. It will be used for internal traceability. It will be very helpful if provided in support ticket.
               schema:
                 type: string
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  id:
-                    description: The identifier of SMS.
-                    type: integer
         "400":
           description: Invalid inputs.
           headers:
@@ -5449,6 +5448,103 @@ paths:
                     type: string
 security:
   - bearer: []
+webhooks:
+  ESIMStatusChangeEvent:
+    post:
+      tags:
+        - Webhooks
+      summary: ESIM Status Change Event
+      description: |
+        This webhook event is also called the "HandleDownloadProgressInfo" function in the GSMA RSP Technical Specs. The function SHALL be used by the SM-DP+ to notify the Operator of the progress of a pending Profile download order request. This function MAY be used at several points of the Profile Download and Installation procedure. It is assumed that the ICCID and the EID are enough to identify the pending Profile download order request at the SM-DP+ and the Operator sides. It is also assumed that the ICCID is enough for the SM-DP+ to retrieve the Operator to notify. For more technical details, please refer to the GSM Association Official Document SGP.22 – RSP Technical Specification v2.4 (SGP.22-2.4).
+
+        Add-on Webhook Access
+
+        This webhook belongs to our exclusive range of add-on services, designed to provide a more comprehensive API experience. To access this service, kindly reach out to your respective account manager.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - header
+              properties:
+                header:
+                  type: object
+                  required:
+                    - functionRequesterIdentifier
+                    - functionCallIdentifier
+                    - iccid
+                    - profileType
+                    - timestamp
+                    - notificationPointId
+                    - notificationPointStatus
+                  properties:
+                    functionRequesterIdentifier:
+                      type: string
+                      description: Identification of the function requester.
+                    functionCallIdentifier:
+                      type: string
+                      description: Identification of the function call.
+                    eid:
+                      type: string
+                      description: Identifies the targeted eUICC. This information SHALL be set if available to the SM-DP+. EID as described in SGP.22-2.4 section 4.3.1.
+                    iccid:
+                      type: string
+                      description: Identifies the Profile to download and install in the eUICC. ICCID as described in SGP.22-2.4 section 5.2.1.
+                    profileType:
+                      type: string
+                      description: Identifies the Profile Type to download and install in the eUICC. Content free information defined by the Operator.
+                    timestamp:
+                      type: string
+                      description: "Indicates the date/time when the operation has been performed. String format as specified by W3C: YYYY-MM-DDThh:mm:ssTZD (E.g. 2001-12-17T09:30:47Z)."
+                    notificationPointId:
+                      type: string
+                      description: |
+                        Indicates the step reached within the Profile Download and Installation procedure. Defined check points are:
+                        - '1' -> Returned in case of failure due to insufficient download retries.
+                        - '2' -> Returned when the maximum number of retries for the Confirmation Code has been exceeded.
+                        - '3' -> BPP Downloaded (This notification indicates that the Binary Profile Package (BPP) has been successfully downloaded to the device. The BPP contains the eSIM profile data, including keys and configuration required for the proper functionality of the profile. At this point, the profile has been received, but installation has not yet occurred).
+                        - '4' -> BPP Installation (This checkpoint confirms that the Binary Profile Package has been successfully installed on the eUICC (embedded Universal Integrated Circuit Card). Installation involves configuring the eSIM profile on the card so it can be used for network access. Any issues during installation will prevent the profile from being activated for use).
+                        - '6' -> Local Enable (After the profile has been installed, this notification indicates that the profile has been locally enabled on the device. The profile is now active and can be used to connect to the network. Local enabling ensures that the profile is the one being used by the device, as there may be multiple profiles stored on the eUICC).
+                        - '7' -> Local Disable (This notification shows that the profile has been locally disabled on the device. Disabling a profile prevents it from being used to connect to the network, though the profile still remains installed on the device. This could be useful in scenarios where multiple profiles exist, and only one should be active at a time).
+                        - '8' -> Local Delete (This notification indicates that the profile has been locally deleted from the eUICC. Once deleted, the profile is no longer available on the device, and it cannot be used for network access. This step is typically irreversible, meaning the profile would need to be re-downloaded if required again in the future).
+                    notificationPointStatus:
+                      type: object
+                      description: Indicates the status after the execution of the notification point. The ExecutionStatus type is re-used to specify the result of processing of the operation related to the notification point (Executed-Success, Executed-WithWarning, Failed), and optionally to provide information on any encountered problem (status code, data/object that causes the status code, and message to provide textual and human readable explanation of the status code).
+                      required:
+                        - status
+                      properties:
+                        status:
+                          type: string
+                          enum:
+                            - Executed-Success
+                            - Executed-WithWarning
+                            - Failed
+                            - Expired
+                          description: Executed-Success, Executed-WithWarning, Failed or Expired.
+                        statusCodeData:
+                          type: object
+                          nullable: true
+                          description: This object could be null, depending on the status value.
+                          properties:
+                            subjectCode:
+                              type: string
+                              description: OID of the subject code.
+                            reasonCode:
+                              type: string
+                              description: OID of the reason code.
+                            subjectIdentifier:
+                              type: string
+                              description: Identifier of the subject.
+                            messsage:
+                              type: string
+                              description: Textual and human readable explanation.
+                            resultData:
+                              type: string
+                              description: Base64 encoded binary data containing the Result data contained in the ProfileInstallationResult. The finalResult data object as contained in the ProfileInstallationResult, when received from the eUICC.
+      responses:
+        "200":
+          description: OK. The client endpoint must respond with an HTTP status code of 200 OK to acknowledge the successful delivery of the event. This response code indicates that the client has received and processed the webhook payload successfully.
 components:
   securitySchemes:
     bearer:
@@ -5592,7 +5688,7 @@ components:
           description: The automatically created and attached wallet for the group. This wallet is associated with the group and can hold a balance that can be used for various purposes. The wallet allows for setting an overdraft limit, which enables the balance to go below zero up to the specified limit.  The SIMs within the group can charge their usage towards their own individual wallets or towards this group's wallet. This configuration is determined by the "Wallet Mode" setting in the SIM's Policy and Charging Rules (PCR) profile.  The wallet provides flexibility in managing and distributing funds within the group. It can be used to achieve a pooled balance where the usage charges of all SIMs in the group contribute to and draw from a shared balance.
           type: integer
         type:
-          description: The type of the group. Possible values are: CLASSIC, UNIVERSAL_DATA_ONLY, UNIVERSAL_VOICE.
+          description: "The type of the group. Possible values are: CLASSIC, UNIVERSAL_DATA_ONLY, UNIVERSAL_VOICE."
           type: string
           enum:
             - CLASSIC
@@ -5615,7 +5711,7 @@ components:
           description: The ICCID (Integrated Circuit Card Identifier) of the SIM card.
           type: string
         sim_status:
-          description: The status of the SIM card. Possible values are: WAITING_FOR_ASSIGNMENT, PRE_SERVICE, IN_SERVICE, TERMINATED.
+          description: "The status of the SIM card. Possible values are: WAITING_FOR_ASSIGNMENT, PRE_SERVICE, IN_SERVICE, TERMINATED."
           type: string
           enum:
             - WAITING_FOR_ASSIGNMENT
@@ -5623,13 +5719,13 @@ components:
             - IN_SERVICE
             - TERMINATED
         sim_type:
-          description: Represents type of the SIM card. Possible values are: eSIM, SIM.
+          description: "Represents type of the SIM card. Possible values are: eSIM, SIM."
           type: string
           enum:
             - eSIM
             - SIM
         sim_variance:
-          description: Represents variance of the SIM card. Possible values are: UNIVERSAL_DATA_ONLY, UNIVERSAL_VOICE, CLASSIC.
+          description: "Represents variance of the SIM card. Possible values are: UNIVERSAL_DATA_ONLY, UNIVERSAL_VOICE, CLASSIC."
           type: string
           enum:
             - UNIVERSAL_DATA_ONLY
@@ -5686,7 +5782,7 @@ components:
           description: The entity or user who initiated the transfer.
           type: string
         status:
-          description: The status of the transfer. Possible values are: FAILED, SUCCESS, IN_PROGRESS, PENDING.
+          description: "The status of the transfer. Possible values are: FAILED, SUCCESS, IN_PROGRESS, PENDING."
           type: string
           enum:
             - FAILED
@@ -5720,7 +5816,7 @@ components:
           description: The ICCID (Integrated Circuit Card Identifier) of the SIM card.
           type: string
         status:
-          description: The status of the transfer request for the SIM card. Possible values are: FAILED, SUCCESS, IN_PROGRESS, PENDING.
+          description: "The status of the transfer request for the SIM card. Possible values are: FAILED, SUCCESS, IN_PROGRESS, PENDING."
           type: string
           enum:
             - FAILED
@@ -5744,7 +5840,7 @@ components:
           description: The ICCID (Integrated Circuit Card Identifier) of the SIM card.
           type: string
         sim_status:
-          description: Represents the current status of the SIM card. Possible values are: WAITING_FOR_ASSIGNMENT, PRE_SERVICE, IN_SERVICE, TERMINATED.
+          description: "Represents the current status of the SIM card. Possible values are: WAITING_FOR_ASSIGNMENT, PRE_SERVICE, IN_SERVICE, TERMINATED."
           type: string
           enum:
             - WAITING_FOR_ASSIGNMENT
@@ -5874,7 +5970,7 @@ components:
           description: Profile IMSI.
           type: string
         state:
-          description: The ESIM Profile States. AVAILABLE: The Profile is available in the inventory of the SM-DP+. ALLOCATED: The Profile is reserved for downloading without being linked to an EID. LINKED: The Profile is reserved for downloading and is linked to an EID. CONFIRMED: The Profile is reserved for downloading (linked or not linked to an EID) with Matching ID and Confirmation Code if required. RELEASED: The Profile is ready for download and installation after Network Configuration by the Operator. DOWNLOADED: The Bound Profile was delivered to the LPA. INSTALLED: The Profile was successfully installed on the eUICC. ENABLED: The last Notification received from the eUICC was an enable Notification. DISABLED: The last Notification received from the eUICC was a disable Notification. ERROR: The Profile has not been installed because of an error case. UNAVAILABLE: The Profile cannot be reused anymore by the SM-DP+. DELETED: The last Notification received from the eUICC was a delete Notification.
+          description: "The ESIM Profile States. AVAILABLE: The Profile is available in the inventory of the SM-DP+. ALLOCATED: The Profile is reserved for downloading without being linked to an EID. LINKED: The Profile is reserved for downloading and is linked to an EID. CONFIRMED: The Profile is reserved for downloading (linked or not linked to an EID) with Matching ID and Confirmation Code if required. RELEASED: The Profile is ready for download and installation after Network Configuration by the Operator. DOWNLOADED: The Bound Profile was delivered to the LPA. INSTALLED: The Profile was successfully installed on the eUICC. ENABLED: The last Notification received from the eUICC was an enable Notification. DISABLED: The last Notification received from the eUICC was a disable Notification. ERROR: The Profile has not been installed because of an error case. UNAVAILABLE: The Profile cannot be reused anymore by the SM-DP+. DELETED: The last Notification received from the eUICC was a delete Notification."
           type: string
           enum:
             - AVAILABLE
@@ -5911,7 +6007,7 @@ components:
             - max_count
           properties:
             reuse_type:
-              description: Profile Reuse Policy that specifies the condition under which profile can be reused. NEVER: Profile reuse is disabled. SAME_EID_MID: Profile can be reused with same EID and MID. SAME_MID: Profile can be reused with same MID. NEW_EID_MID: Profile can be reused with new EID and MID.
+              description: "Profile Reuse Policy that specifies the condition under which profile can be reused. NEVER: Profile reuse is disabled. SAME_EID_MID: Profile can be reused with same EID and MID. SAME_MID: Profile can be reused with same MID. NEW_EID_MID: Profile can be reused with new EID and MID."
               type: string
               enum:
                 - NEVER
@@ -6274,7 +6370,7 @@ components:
           type: integer
           format: int64
         type:
-          description: The type of the whitelist. Possible values are: CLASSIC, UNIVERSAL_DATA_ONLY, UNIVERSAL_VOICE.
+          description: "The type of the whitelist. Possible values are: CLASSIC, UNIVERSAL_DATA_ONLY, UNIVERSAL_VOICE."
           type: string
           enum:
             - CLASSIC
