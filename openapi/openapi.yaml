@@ -5683,6 +5683,92 @@ webhooks:
       responses:
         "200":
           description: OK. The client endpoint must respond with an HTTP status code of 200 OK to acknowledge the successful delivery of the event. This response code indicates that the client has received and processed the webhook payload successfully.
+  PackageStatusChangeEvent:
+    post:
+      tags:
+        - Webhooks
+      summary: Package Status Change Event
+      description: |
+        The Package Status Change event signifies a modification in the status of a package. The event body includes comprehensive information such as package details, package template, owner SIM, and owner inventory.
+
+        Please note that, at present, the production environment only supports package termination events for V1 and V2 messages (Enabled before 2024.09.01), but V3 message (Enabled on/after 2024.09.01) will support both ACTIVATED and TERMINATED package status events. For signature comparison, please see the examples.
+
+        Add-on Webhook Access
+
+        This webhook belongs to our exclusive range of add-on services, designed to provide a more comprehensive API experience. To access this service, kindly reach out to your respective account manager.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - eventName
+                - eventTimestamp
+                - eventDetails
+              properties:
+                eventName:
+                  type: string
+                  description: The name of the event. In this case, it will be "PACKAGE_STATUS_CHANGE" representing the name of the package status change event.
+                eventTimestamp:
+                  type: integer
+                  format: int64
+                  description: The trigger time of the event (in UTC timezone) in Unix epoch format (milliseconds).
+                eventDetails:
+                  type: object
+                  description: Detailed information associated to the event and the terminated package.
+                  required:
+                    - inventory
+                    - package
+                    - sim
+                    - packageTemplate
+                  properties:
+                    inventory:
+                      type: object
+                      description: Information about the associated inventory.
+                      properties:
+                        id:
+                          type: integer
+                        name:
+                          type: string
+                    package:
+                      type: object
+                      description: Information about the package related to the event.
+                      required:
+                        - id
+                        - status
+                      properties:
+                        id:
+                          type: string
+                        status:
+                          type: object
+                          description: Information about the package status.
+                          required:
+                            - currentValue
+                          properties:
+                            currentValue:
+                              type: string
+                              enum:
+                                - NOT_ACTIVE
+                                - ACTIVE
+                                - TERMINATED
+                              description: The current status of the package.
+                    sim:
+                      type: object
+                      description: Information about the SIM card related to the event.
+                      properties:
+                        iccid:
+                          type: string
+                    packageTemplate:
+                      type: object
+                      description: Information about the package template related to the event.
+                      properties:
+                        id:
+                          type: integer
+                        name:
+                          type: string
+      responses:
+        "200":
+          description: OK. The client endpoint must respond with an HTTP status code of 200 OK to acknowledge the successful delivery of the event. This response code indicates that the client has received and processed the webhook payload successfully.
 components:
   securitySchemes:
     bearer:
