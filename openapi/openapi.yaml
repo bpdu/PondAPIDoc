@@ -5837,6 +5837,57 @@ webhooks:
       responses:
         "200":
           description: OK. The client endpoint must respond with an HTTP status code of 200 OK to acknowledge the successful delivery of the event. This response code indicates that the client has received and processed the webhook payload successfully.
+  A2PSMSMOReceivedEvent:
+    post:
+      tags:
+        - Webhooks
+      summary: A2P SMS (MO) Received Event
+      description: The specified endpoint receives notifications for Mobile Originated (MO) A2P SMS events. When a device sends an SMS to a specified short code, this webhook is triggered to deliver the event details to your system. The client endpoint must respond with an HTTP status code of 200 OK to confirm the successful receipt and processing of the webhook payload.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - eventName
+                - eventTimestamp
+                - eventDetails
+              properties:
+                eventName:
+                  type: string
+                  description: The name of the event, indicating that a Mobile Originated A2P SMS has been received. In the case of an A2P SMS (MO) received event, the value will be A2P_SMS_MO_RECEIVED.
+                eventTimestamp:
+                  type: integer
+                  format: int64
+                  description: A timestamp indicating when the event occurred, provided in milliseconds since the Unix epoch.
+                eventDetails:
+                  type: object
+                  description: An object containing specific details about the SMS event.
+                  required:
+                    - srcAddr
+                    - dstAddr
+                    - sms
+                    - companyId
+                    - iccid
+                  properties:
+                    srcAddr:
+                      type: string
+                      description: The source MSISDN (phone number) that sent the SMS. In the case of A2P SMS (MO), this would be the internal technical MSISDN attached to the SIM.
+                    dstAddr:
+                      type: string
+                      description: The destination MSISDN (phone number) that is set to receive the SMS. In the case of A2P SMS (MO), this would be the short code that the SMS is being sent to.
+                    sms:
+                      type: string
+                      description: The content of the SMS message.
+                    companyId:
+                      type: integer
+                      description: The ID of the company under which the originating SIM is registered.
+                    iccid:
+                      type: string
+                      description: The ICCID of the SIM that originated the SMS.
+      responses:
+        "200":
+          description: OK. The client endpoint must respond with an HTTP status code of 200 OK to acknowledge the successful delivery of the event. This response code indicates that the client has received and processed the webhook payload successfully.
 components:
   securitySchemes:
     bearer:
