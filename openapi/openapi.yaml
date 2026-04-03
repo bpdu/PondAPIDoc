@@ -5279,14 +5279,6 @@ paths:
               description: The 'Reference-ID' will be generated uniquely by the system and assign it to each request served by the system. It will be used for internal traceability. It will be very helpful if provided in support ticket.
               schema:
                 type: string
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  id:
-                    description: The identifier of SMS.
-                    type: integer
         "400":
           description: Invalid inputs.
           headers:
