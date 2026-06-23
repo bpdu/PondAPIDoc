@@ -1,5 +1,13 @@
 # Changelog
 
+## [Release] View Changelog Integration
+
+*Added* - June 23, 2026 by Pond Mobile
+
+### Documentation Enhancements
+- Added "View Changelog" link to API description section in the OpenAPI spec
+- Removed redundant header bar with Download OpenAPI and View Changelog buttons to avoid duplication with ReDoc's built-in download feature
+
 ## [Release] API Documentation Structure Enhancement
 
 *Added* - April 3, 2026 by Pond Mobile

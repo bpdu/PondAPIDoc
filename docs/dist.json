@@ -1,7 +1,7 @@
 openapi: 3.0.0
 info:
   title: Pond Mobile API Reference
-  description: Use API calls to get the list of SIM cards, retrieve inventory, group and template information, register a SIM transfer, control a packet and traffic policy on a specific SIM, assign wallet and whitelists, apply some security profiles and send SMS.
+  description: "Use API calls to get the list of SIM cards, retrieve inventory, group and template information, register a SIM transfer, control a packet and traffic policy on a specific SIM, assign wallet and whitelists, apply some security profiles and send SMS.\n\n[View Changelog](CHANGELOG.md)"
   contact:
     name: Pond Mobile
     url: https://www.pondmobile.com
@@ -54,12 +54,16 @@ tags:
     description: Endpoints for managing location updates
   - name: A2P SMS
     description: Endpoints for A2P SMS operations
+  - name: A2P SMS Events
+    description: Webhooks for A2P SMS events
   - name: eSIM RSP
     description: Webhooks for eSIM RSP events
   - name: SIM Transfer
     description: Webhooks for SIM transfer events
   - name: Device Statuses
     description: Webhooks for device status events
+  - name: Package Events
+    description: Webhooks for package events
 paths:
   /core/countries:
     get:
@@ -3155,7 +3159,7 @@ paths:
   /pcr/package-templates/{package_template_id}:
     get:
       tags:
-        - Policy and Charging Rules (PCR)
+        - Package Templates
       summary: Retrieve a package template.
       operationId: getPackageTemplateById
       description: The endpoint returns the package profile storing the detailed information for a package, e.g. types of services, usage allowance, supported countries, activation and allowance type.
@@ -3528,7 +3532,7 @@ paths:
   /pcr/packages/{package_id}:
     get:
       tags:
-        - Package Templates
+        - Packages
       summary: Retrieve a package.
       operationId: getPackageById
       description: The endpoint retrieves the details of a specific package.
@@ -3621,7 +3625,7 @@ paths:
                     type: string
     put:
       tags:
-        - Policy and Charging Rules (PCR)
+        - Packages
       summary: Modify a package.
       operationId: updatePackage
       description: The endpoint allows you to modify the status of an existing package. Packages represent service plans with predefined allowances for data, voice, and SMS usage. You can use this endpoint to change the status of a package, for example, from "ACTIVE" to "TERMINATED" or vice versa.
@@ -4085,7 +4089,7 @@ paths:
   /pcr/sim-pcr-profiles/{iccid}:
     get:
       tags:
-        - Route Policies
+        - SIM PCR Profiles
       summary: Retrieve a SIM PCR Profile.
       operationId: getSIMPCRProfileByIccid
       description: The endpoint allows you to retrieve the Policy and Charging Rules (PCR) profile associated with a specific SIM card. The PCR profile contains various subscriber configurations in the Policy and Charging Rules Function (PCRF) core network node. These configurations define how the SIM card's data, voice, and SMS usage are handled within the network.
@@ -4178,7 +4182,7 @@ paths:
                     type: string
     put:
       tags:
-        - Route Policies
+        - SIM PCR Profiles
       summary: Modify a SIM PCR profile.
       operationId: updateSIMPCRProfile
       description: The endpoint allows you to modify the Policy and Charging Rules (PCR) profile associated with a specific SIM card. The PCR profile contains various subscriber configurations in the Policy and Charging Rules Function (PCRF) core network node. These configurations define how the SIM card's data, voice, and SMS usage are handled within the network.
@@ -4304,7 +4308,7 @@ paths:
   /pcr/traffic-policies:
     get:
       tags:
-        - SIM PCR Profiles
+        - Traffic Policies
       summary: List of traffic policies.
       operationId: getTrafficPolicies
       description: The endpoint provides a list of all currently available traffic policies. Each traffic policy is a unique set of rules managing data throttling for SIM cards. Use this endpoint to view and select the appropriate policy for your network service needs.
@@ -4421,7 +4425,7 @@ paths:
   /pcr/traffic-policies/{traffic_policy_id}:
     get:
       tags:
-        - SIM PCR Profiles
+        - Traffic Policies
       summary: Retrieve a traffic policy.
       operationId: getTrafficPolicyById
       description: |
@@ -4730,13 +4734,14 @@ paths:
       description: |
         This endpoint allows you to retrieve information about the currently open data sessions for a specific SIM card. Open data sessions represent active connections where the SIM card is actively using data services.
 
-        Add-on API Endpoint Access
+        
 
-        This endpoint belongs to our exclusive range of add-on services, designed to provide a more comprehensive API experience. To access this service, kindly reach out to your respective account manager.
+        **This endpoint belongs to our exclusive range of add-on services, designed to provide a more comprehensive API experience. To access this service, kindly reach out to your respective account manager.**
       parameters:
         - name: iccid
           in: query
           description: The open data session of a specific SIM to be looked up
+          required: true
           schema:
             type: string
         - name: request-id
@@ -5278,9 +5283,9 @@ paths:
       description: |
         Send a SMS request via API to the subscriber. MSISDN is not required for the subscriber to receive the SMS.
 
-        Add-on API Endpoint Access
+        
 
-        This endpoint belongs to our exclusive range of add-on services, designed to provide a more comprehensive API experience. To access this service, kindly reach out to your respective account manager.
+        **This endpoint belongs to our exclusive range of add-on services, designed to provide a more comprehensive API experience. To access this service, kindly reach out to your respective account manager.**
       requestBody:
         content:
           application/json:
@@ -5495,13 +5500,14 @@ webhooks:
     post:
       tags:
         - eSIM RSP
-      summary: ESIM Status Change Event
+      summary: ESIM Status Change Event.
       description: |
         This webhook event is also called the "HandleDownloadProgressInfo" function in the GSMA RSP Technical Specs. The function SHALL be used by the SM-DP+ to notify the Operator of the progress of a pending Profile download order request. This function MAY be used at several points of the Profile Download and Installation procedure. It is assumed that the ICCID and the EID are enough to identify the pending Profile download order request at the SM-DP+ and the Operator sides. It is also assumed that the ICCID is enough for the SM-DP+ to retrieve the Operator to notify. For more technical details, please refer to the GSM Association Official Document SGP.22 – RSP Technical Specification v2.4 (SGP.22-2.4).
 
-        Add-on Webhook Access
+        
 
-        This webhook belongs to our exclusive range of add-on services, designed to provide a more comprehensive API experience. To access this service, kindly reach out to your respective account manager.
+        **This webhook belongs to our exclusive range of add-on services, designed to provide a more comprehensive API experience. To access this service, kindly reach out to your respective account manager.**
+      security: []
       requestBody:
         content:
           application/json:
@@ -5591,8 +5597,9 @@ webhooks:
     post:
       tags:
         - SIM Transfer
-      summary: SIM Transfer Callback
+      summary: SIM Transfer Callback.
       description: This endpoint receives the callback notification once the transfer request is processed.
+      security: []
       requestBody:
         content:
           application/json:
@@ -5643,14 +5650,15 @@ webhooks:
   PackageDataUsageAlertEvent:
     post:
       tags:
-        - Packages
-      summary: Package Data Usage Alert Event
+        - Package Events
+      summary: Package Data Usage Alert Event.
       description: |
         When the package of a SIM reaches 50 or 80 percent of its total data allowance, this webhook will be sent to the specified endpoint, providing the essential details of the associated SIM, package, and session information.
 
-        Add-on Webhook Access
+        
 
-        This webhook belongs to our exclusive range of add-on services, designed to provide a more comprehensive API experience. To access this service, kindly reach out to your respective account manager.
+        **This webhook belongs to our exclusive range of add-on services, designed to provide a more comprehensive API experience. To access this service, kindly reach out to your respective account manager.**
+      security: []
       requestBody:
         content:
           application/json:
@@ -5728,16 +5736,17 @@ webhooks:
   PackageStatusChangeEvent:
     post:
       tags:
-        - Packages
-      summary: Package Status Change Event
+        - Package Events
+      summary: Package Status Change Event.
       description: |
         The Package Status Change event signifies a modification in the status of a package. The event body includes comprehensive information such as package details, package template, owner SIM, and owner inventory.
 
         Please note that, at present, the production environment only supports package termination events for V1 and V2 messages (Enabled before 2024.09.01), but V3 message (Enabled on/after 2024.09.01) will support both ACTIVATED and TERMINATED package status events. For signature comparison, please see the examples.
 
-        Add-on Webhook Access
+        
 
-        This webhook belongs to our exclusive range of add-on services, designed to provide a more comprehensive API experience. To access this service, kindly reach out to your respective account manager.
+        **This webhook belongs to our exclusive range of add-on services, designed to provide a more comprehensive API experience. To access this service, kindly reach out to your respective account manager.**
+      security: []
       requestBody:
         content:
           application/json:
@@ -5815,15 +5824,16 @@ webhooks:
     post:
       tags:
         - Device Statuses
-      summary: IMEI Change Event
+      summary: IMEI Change Event.
       description: |
         This event indicates that a new IMEI value is detected during the most recent location update event of a SIM (comparing to the IMEI value used in the previous location update).
 
         Since the IMEI field is optional during the data exchange with the VPLMN, this event may not capture all IMEI changes.
 
-        Add-on Webhook Access
+        
 
-        This webhook belongs to our exclusive range of add-on services, designed to provide a more comprehensive API experience. To access this service, kindly reach out to your respective account manager.
+        **This webhook belongs to our exclusive range of add-on services, designed to provide a more comprehensive API experience. To access this service, kindly reach out to your respective account manager.**
+      security: []
       requestBody:
         content:
           application/json:
@@ -5882,9 +5892,10 @@ webhooks:
   A2PSMSMOReceivedEvent:
     post:
       tags:
-        - A2P SMS
-      summary: A2P SMS (MO) Received Event
+        - A2P SMS Events
+      summary: A2P SMS (MO) Received Event.
       description: The specified endpoint receives notifications for Mobile Originated (MO) A2P SMS events. When a device sends an SMS to a specified short code, this webhook is triggered to deliver the event details to your system. The client endpoint must respond with an HTTP status code of 200 OK to confirm the successful receipt and processing of the webhook payload.
+      security: []
       requestBody:
         content:
           application/json:
@@ -6809,6 +6820,6 @@ x-tagGroups:
     tags:
       - eSIM RSP
       - SIM Transfer
-      - Packages
+      - Package Events
       - Device Statuses
-      - A2P SMS
+      - A2P SMS Events
