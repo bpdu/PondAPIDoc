@@ -7,7 +7,7 @@
   "private": true,
   "scripts": {
     "start": "redocly preview-docs",
-    "build": "redocly bundle -o dist/bundle.yaml",
+    "build": "redocly bundle -o dist/dist.json && cp docs/index.html docs/favicon.png docs/CHANGELOG.md dist/",
     "test": "redocly lint"
   }
 }

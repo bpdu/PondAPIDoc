@@ -2814,18 +2814,6 @@ paths:
           description: The specific MSISDN you want to reference in a single API call.
           schema:
             type: string
-        - name: sim
-          in: body
-          required: true
-          description: The identifier of the SIM.
-          schema:
-            type: string
-        - name: body
-          in: path
-          required: true
-          description: Whether mark this MSISDN as cli or not. If this is a first MSISDN of a SIM than parameter will be ignored and set to true.
-          schema:
-            type: boolean
         - name: request-id
           in: header
           description: The parameter is returned in the response header. It functions as a reference ID to assist client-side developers, particularly when working with asynchronous systems. This unique identifier helps in tracking individual requests, aiding in troubleshooting and system monitoring.
@@ -2836,6 +2824,21 @@ paths:
           description: If this header is not provided, or if an invalid version is given, the API will default to using the latest version available.
           schema:
             type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - sim
+              properties:
+                sim:
+                  type: string
+                  description: The identifier of the SIM.
+                cli:
+                  type: boolean
+                  description: Whether mark this MSISDN as cli or not. If this is a first MSISDN of a SIM than parameter will be ignored and set to true.
       responses:
         "200":
           description: On success, the assignment is returned.
@@ -5542,7 +5545,7 @@ paths:
                 properties:
                   error:
                     type: string
-webhooks:
+x-webhooks:
   ESIMStatusChangeEvent:
     post:
       tags:
