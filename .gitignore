@@ -8,3 +8,7 @@ report/
 # Environment files
 .env
 .env.*
+
+# Build artifacts (generated)
+openapi/bundled.yaml
+docs/dist.json
