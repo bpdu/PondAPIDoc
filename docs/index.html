@@ -2,15 +2,9 @@
 <html>
   <head>
     <title>Pond Mobile API reference</title>
-
-    <!-- needed for adaptive design -->
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="https://fonts.googleapis.com/css?family=Montserrat:300,400,700|Roboto:300,400,700" rel="stylesheet">
-
-    <!--
-    ReDoc doesn't change outer page styles
-    -->
     <style>
       body {
         margin: 0;
@@ -20,22 +14,15 @@
   </head>
   <body>
     <div id="redoc-container"></div>
-  	<script src="https://cdn.jsdelivr.net/npm/redoc@latest/bundles/redoc.standalone.js"></script>
-		<script src="https://cdn.jsdelivr.net/npm/redoc-try-it-out@latest/dist/try-it-out.min.js"></script>
-		<script>
-			// Debug: Check if RedocTryItOut is loaded
-			console.log("RedocTryItOut:", typeof RedocTryItOut);
-
-			RedocTryItOut.init(
-        		"dist.json",
-        		{
-        			title: "Pond Mobile API reference",
-        			tryItOutEnabled: true,
-        			authBtnText: "Authorize for using TRY OUT feature"
-        		},
-        		document.getElementById("redoc-container")
-		)
-  	</script>
-</body>
+    <script src="https://cdn.jsdelivr.net/npm/redoc@2.5.0/bundles/redoc.standalone.js"></script>
+    <script>
+      Redoc.init(
+        "dist.json",
+        {
+          title: "Pond Mobile API reference",
+        },
+        document.getElementById("redoc-container")
+      );
+    </script>
+  </body>
 </html>
-
