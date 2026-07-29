@@ -1,10 +1,10 @@
-# Pond IoT API v.2.1  
+# Pond API Reference ![Version](https://img.shields.io/badge/version-2.1-blue)
 
-This repository contains [OpenAPI](https://www.openapis.org/) descriptions of [Pond IoT API v.2.1](https://api.pondiot.com/v.2.1).
+This repository contains [OpenAPI](https://www.openapis.org/) descriptions of [Pond API v.2.1](https://api.pondmobile.com/v2.1).
 
-## What is Pond IoT API?
+## What is Pond API?
 
-The Pond IoT API allows users to get the list of SIM cards, retrieve inventory, group and template information, register a SIM transfer, control a packet and traffic policy on a specific SIM, assign wallet and whitelists, apply some security profiles and send SMS. 
+The Pond API allows users to get the list of SIM cards, retrieve inventory, group and template information, register a SIM transfer, control a packet and traffic policy on a specific SIM, assign wallet and whitelists, apply some security profiles and send SMS. 
 
 ## What is OpenAPI specification?
 
@@ -22,7 +22,7 @@ If you've identified a mismatch between API's behavior and these descriptions, o
 
 ## License
 
-Pond IoT API Reference is licensed under the [MIT license](LICENSE.md)
+Pond API Reference is licensed under the [MIT license](LICENSE.md)
 
 ## Contact
 
