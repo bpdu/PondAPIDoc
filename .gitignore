@@ -4,3 +4,7 @@ node_modules
 
 # Reports
 report/
+
+# Environment files
+.env
+.env.*
