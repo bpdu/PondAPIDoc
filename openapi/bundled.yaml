@@ -1,6 +1,6 @@
 openapi: 3.0.0
 info:
-  title: Pond API Reference
+  title: Pond API Reference (v2.1)
   description: |
     Use API calls to get the list of SIM cards, retrieve inventory, group and template information, register a SIM transfer, control a packet and traffic policy on a specific SIM, assign wallet and whitelists, apply some security profiles and send SMS.
     [View Changelog](CHANGELOG.md)
