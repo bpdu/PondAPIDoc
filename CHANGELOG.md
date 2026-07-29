@@ -2,7 +2,7 @@
 
 ## [Release] View Changelog Integration
 
-*Added* - June 23, 2026 by Pond Mobile
+*Added* - June 23, 2026 by Pond IoT
 
 ### Documentation Enhancements
 - Added "View Changelog" link to API description section in the OpenAPI spec
@@ -10,7 +10,7 @@
 
 ## [Release] API Documentation Structure Enhancement
 
-*Added* - April 3, 2026 by Pond Mobile
+*Added* - April 3, 2026 by Pond IoT
 
 ### Two-Level Subsection Navigation
 - Implemented two-level navigation structure using x-tagGroups extension
@@ -29,7 +29,7 @@
 
 ## [Release] Universal eSIM Support & Webhooks Integration
 
-*Added* - March 31, 2026 by Pond Mobile
+*Added* - March 31, 2026 by Pond IoT
 
 ### New Webhooks (6 endpoints)
 - Introduced webhook notifications system for real-time event monitoring:

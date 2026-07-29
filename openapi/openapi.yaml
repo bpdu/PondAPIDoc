@@ -1,16 +1,16 @@
 openapi: 3.0.0
 info:
-  title: Pond Mobile API Reference
+  title: Pond IoT API Reference
   description: >
     Use API calls to get the list of SIM cards, retrieve inventory, group and template information, register a SIM transfer, control a packet and traffic policy on a specific SIM, assign wallet and whitelists, apply some security profiles and send SMS.
 
     [View Changelog](CHANGELOG.md)
   contact:
-    name: Pond Mobile
-    url: https://www.pondmobile.com
-    email: support@pondmobile.com
+    name: Pond IoT
+    url: https://www.pondiot.com
+    email: support@pondiot.com
   version: "2.1"
-  termsOfService: https://www.pondmobile.com/terms-and-conditions/
+  termsOfService: https://www.pondiot.com/terms-and-conditions/
   license:
     name: MIT
     url: https://opensource.org/license/mit/
@@ -56,7 +56,7 @@ x-tagGroups:
       - Device Statuses
       - A2P SMS Events
 servers:
-  - url: https://api.pondmobile.com/v2.1
+  - url: https://api.pondiot.com/v2.1
 security:
   - bearer: []
 tags:
