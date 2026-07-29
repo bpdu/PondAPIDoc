@@ -1,6 +1,6 @@
 # Pond API Reference ![Version](https://img.shields.io/badge/version-2.1-blue) ![OpenAPI](https://img.shields.io/badge/OpenAPI-3.0-6BA539) ![License](https://img.shields.io/badge/license-MIT-blue) ![PRs](https://img.shields.io/badge/PRs-welcome-brightgreen)
 
-This repository contains [OpenAPI](https://www.openapis.org/) descriptions of [Pond API v.2.1](https://api.pondmobile.com/v2.1).
+This repository contains [OpenAPI](https://www.openapis.org/) descriptions of Pond API v.2.1.
 
 ## What is Pond API?
 
