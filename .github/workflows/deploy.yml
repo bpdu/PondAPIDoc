@@ -48,5 +48,5 @@ jobs:
           REMOTE_HOST: ${{ vars.SSH_HOST }}
           REMOTE_USER: ${{ vars.SSH_USER }}
           SOURCE: dist/
-          TARGET: ${{ vars.TARGET_DIR }}
-          ARGS: -rlgoDzvc --delete
+          TARGET: ${{ secrets.TARGET_DIR }}
+          ARGS: -rlDzvc --delete
