@@ -1997,6 +1997,121 @@ paths:
                 properties:
                   error:
                     type: string
+  /inventory/sim-registries/{iccid}/apns:
+    get:
+      tags:
+        - SIM Registries
+      summary: Retrieve APNs for a SIM.
+      operationId: getApns
+      description: The endpoint returns the available APNs of the specified SIM.
+      parameters:
+        - name: iccid
+          in: path
+          required: true
+          description: The ICCID of the SIM. It is a unique identifier for the SIM card and is typically a 19 to 20-character long alphanumeric string.
+          schema:
+            type: string
+        - name: request-id
+          in: header
+          description: The parameter is returned in the response header. It functions as a reference ID to assist client-side developers, particularly when working with asynchronous systems. This unique identifier helps in tracking individual requests, aiding in troubleshooting and system monitoring.
+          schema:
+            type: string
+        - name: version
+          in: header
+          description: If this header is not provided, or if an invalid version is given, the API will default to using the latest version available.
+          schema:
+            type: string
+      responses:
+        "200":
+          description: On success, the available APNs of the specified SIM would be returned.
+          headers:
+            request-id:
+              description: The 'Request-ID' from request header will be provided as it is in response header.
+              schema:
+                type: string
+            reference-id:
+              description: The 'Reference-ID' will be generated uniquely by the system and assign it to each request served by the system. It will be used for internal traceability. It will be very helpful if provided in support ticket.
+              schema:
+                type: string
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  apns:
+                    description: The full list of APNs available to the SIM.
+                    type: array
+                    items:
+                      type: string
+                  apn_last_refresh_time:
+                    description: The date/time the APN list was last refreshed, expressed as a Unix timestamp in milliseconds.
+                    type: integer
+                    format: int64
+                    nullable: true
+                  apns_3g:
+                    description: The APNs available to the SIM over 3G.
+                    type: array
+                    items:
+                      type: string
+                  apns_4g:
+                    description: The APNs available to the SIM over 4G.
+                    type: array
+                    items:
+                      type: string
+        "400":
+          description: Invalid inputs.
+          headers:
+            request-id:
+              description: The 'Request-ID' from request header will be provided as it is in response header.
+              schema:
+                type: string
+            reference-id:
+              description: The 'Reference-ID' will be generated uniquely by the system and assign it to each request served by the system. It will be used for internal traceability. It will be very helpful if provided in support ticket.
+              schema:
+                type: string
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+        "401":
+          description: Authentication failed.
+          headers:
+            request-id:
+              description: The 'Request-ID' from request header will be provided as it is in response header.
+              schema:
+                type: string
+            reference-id:
+              description: The 'Reference-ID' will be generated uniquely by the system and assign it to each request served by the system. It will be used for internal traceability. It will be very helpful if provided in support ticket.
+              schema:
+                type: string
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+        "403":
+          description: Authorization failed or forbidden access to the requested resource.
+          headers:
+            request-id:
+              description: The 'Request-ID' from request header will be provided as it is in response header.
+              schema:
+                type: string
+            reference-id:
+              description: The 'Reference-ID' will be generated uniquely by the system and assign it to each request served by the system. It will be used for internal traceability. It will be very helpful if provided in support ticket.
+              schema:
+                type: string
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
   /inventory/sim-transfers:
     get:
       tags:
