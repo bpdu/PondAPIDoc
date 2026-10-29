@@ -3,6 +3,7 @@ name: Deploy API Docs
 on:
   push:
     branches: [main]
+  workflow_dispatch:
 
 jobs:
   lint:
@@ -44,8 +45,8 @@ jobs:
         uses: easingthemes/ssh-deploy@5d8aeab1a56041e269567e67a08ce00df324a617 # v6.0.1
         with:
           SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
-          REMOTE_HOST: ${{ secrets.SSH_HOST }}
-          REMOTE_USER: ${{ secrets.SSH_USER }}
+          REMOTE_HOST: ${{ vars.SSH_HOST }}
+          REMOTE_USER: ${{ vars.SSH_USER }}
           SOURCE: dist/
-          TARGET: /var/www/apidocs.pondiot.com/html/
+          TARGET: ${{ vars.TARGET_DIR }}
           ARGS: -rlgoDzvc --delete
