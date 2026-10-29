@@ -1,5 +1,12 @@
 # Changelog
 
+## [Release] Retrieve APNs for a SIM
+
+*Added* - October 29, 2026 by Pond IoT
+
+### New Endpoint
+- Added `GET /inventory/sim-registries/{iccid}/apns` to retrieve the available APNs of a SIM, including 3G and 4G-specific APN lists and APN list last refresh timestamp
+
 ## [Release] View Changelog Integration
 
 *Added* - June 23, 2026 by Pond IoT
