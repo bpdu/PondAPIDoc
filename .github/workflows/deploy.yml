@@ -49,4 +49,4 @@ jobs:
           REMOTE_USER: ${{ secrets.SSH_USER }}
           SOURCE: dist/
           TARGET: ${{ secrets.TARGET_DIR }}
-          ARGS: -rlgoDzvc --delete
+          ARGS: --rlDzvc --delete
